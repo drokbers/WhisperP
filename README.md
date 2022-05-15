@@ -39,6 +39,11 @@ samples, guidance on mobile development, and a full API reference.
   - Hosting ->
   - Messaging -> For push notification
 
+- Other packages used in the project
+
+  - [FlutterFire UI](https://pub.dev/packages/flutterfire_ui)
+  - [Flutter-WebRTC](https://pub.dev/packages/flutter_webrtc)
+
 - DevOps CI/CD for flutter using Github Actions
 
 ## Side Topics

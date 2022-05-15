@@ -37,6 +37,8 @@ dependencies:
   firebase_auth: ^3.3.18
   cloud_firestore: ^3.1.15
   firebase_messaging: ^11.4.0
+  flutterfire_ui: ^0.4.1
+  flutter_webrtc: ^0.8.6
 
 dev_dependencies:
   flutter_test:
