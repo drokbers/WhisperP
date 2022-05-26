@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 
 import '../consts/index.dart';
-import '../ui/home_page.dart';
+import '../ui/messages_page.dart';
 import 'firestore_user_registeration.dart';
 
 class AppRoutes {
@@ -15,7 +15,7 @@ class AppRoutes {
         actions: [
           AuthStateChangeAction<SignedIn>((context, state) {
             FirestoreUserRegisteration().checkUserIfRegisterated(state.user);
-            Navigator.pushReplacementNamed(context, RouteNames.home);
+            Navigator.pushReplacementNamed(context, RouteNames.messagingPage);
           }),
         ],
       );
@@ -31,6 +31,6 @@ class AppRoutes {
         ],
       );
     },
-    RouteNames.home: (_) => const HomePage(),
+    RouteNames.messagingPage: (_) => const MessagesPage(),
   };
 }

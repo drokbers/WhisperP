@@ -62,10 +62,3 @@ samples, guidance on mobile development, and a full API reference.
 ## Problems
 
 - MacOS internet connection -> https://stackoverflow.com/a/61201081/6378949
-- 1. Triggering Call Screen (Probably it is service api of OS)
-- 2. Searching with email, name and surname
-- 3. Matching system -> Messaging
-- 4. ???- is WebRTC peer information changing on every matching -???
-- 5. Getting peer information when the app is in background
-- 6. A good looking UI
-- 7. Encryption and decryption problems (especially transfer of the KEY)

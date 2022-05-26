@@ -1,4 +1,4 @@
 class Str {
   static const profilePageTitle = "Profile Page";
-  static const homePageTitle = "Home Page";
+  static const messagesPageTitle  ="Mesajlar";
 }
