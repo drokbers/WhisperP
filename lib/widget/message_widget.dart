@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whisperp/model/message_model.dart';
 
 class MessageWidget extends StatelessWidget {
-  const MessageWidget({Key? key, required this.messageModel})
-      : super(key: key);
+  const MessageWidget({Key? key, required this.messageModel}) : super(key: key);
   final MessageModel messageModel;
   @override
   Widget build(BuildContext context) {
@@ -15,10 +14,8 @@ class MessageWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.person),
-          Column(
-            children: [],
-          ),
+          const Icon(Icons.person),
+          Column(),
         ],
       ),
     );

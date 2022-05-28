@@ -10,21 +10,14 @@ class AppRoutes {
 
   static final routes = {
     RouteNames.signIn: (_) {
-      return Scaffold(
-        backgroundColor: Color(0xFF6562E2),
-        body: SignInScreen(
-          providerConfigs: _providerConfigs,
-          actions: [
-            AuthStateChangeAction<SignedIn>(
-              (context, state) {
-                FirestoreUserRegisteration()
-                    .checkUserIfRegisterated(state.user);
-                Navigator.pushReplacementNamed(
-                    context, RouteNames.messagingPage);
-              },
-            ),
-          ],
-        ),
+      return SignInScreen(
+        providerConfigs: _providerConfigs,
+        actions: [
+          AuthStateChangeAction<SignedIn>((context, state) {
+            FirestoreUserRegisteration().checkUserIfRegisterated(state.user);
+            Navigator.pushReplacementNamed(context, RouteNames.messagingPage);
+          }),
+        ],
       );
     },
     RouteNames.profile: (_) {
@@ -32,11 +25,9 @@ class AppRoutes {
         providerConfigs: _providerConfigs,
         appBar: AppBar(title: const Text(Str.profilePageTitle)),
         actions: [
-          SignedOutAction(
-            (context) {
-              Navigator.pushReplacementNamed(context, RouteNames.signIn);
-            },
-          ),
+          SignedOutAction((context) {
+            Navigator.pushReplacementNamed(context, RouteNames.signIn);
+          }),
         ],
       );
     },

@@ -19,12 +19,12 @@ class MessageCardWidget extends StatefulWidget {
   final List<DocumentSnapshot> messages;
 
   @override
-  _MessageCardWidgetState createState() => _MessageCardWidgetState();
+  State<MessageCardWidget> createState() => _MessageCardWidgetState();
 }
 
 class _MessageCardWidgetState extends State<MessageCardWidget> {
   bool read = false;
-  User? _user = FirebaseAuth.instance.currentUser;
+  final User? _user = FirebaseAuth.instance.currentUser;
   Map sender = {};
   bool _done = false;
   int oSayisi = 0;
@@ -93,7 +93,7 @@ class _MessageCardWidgetState extends State<MessageCardWidget> {
                     width: 50,
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: (widget.messageTopic.data() 
+                          color: (widget.messageTopic.data()
                                   as Map<String, dynamic>)['read']
                               ? Colors.purple
                               : Colors.white,
@@ -120,18 +120,13 @@ class _MessageCardWidgetState extends State<MessageCardWidget> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      sender != null
-                          ? Text(
-                              sender["sender_name"]??"unknown",
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 11.0,
-                              ),
-                            )
-                          : const SizedBox(
-                              width: 30,
-                              child: LinearProgressIndicator(),
-                            ),
+                      Text(
+                        sender["sender_name"] ?? "unknown",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 11.0,
+                        ),
+                      ),
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 10.0),
                         width: 4.0,
@@ -165,7 +160,7 @@ class _MessageCardWidgetState extends State<MessageCardWidget> {
                       fontSize: 15,
                       color: (widget.messageTopic.data()
                                   as Map<String, dynamic>)['receiver_id'] ==
-                             sender["sender_id"]
+                              sender["sender_id"]
                           ? (widget.messageTopic.data()
                                   as Map<String, dynamic>)['read']
                               ? Colors.black
@@ -189,7 +184,7 @@ class _MessageCardWidgetState extends State<MessageCardWidget> {
                 decoration: BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(50.0),
-                ), 
+                ),
                 child: Center(
                   child: Text(
                     "$oSayisi",

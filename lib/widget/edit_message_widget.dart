@@ -18,7 +18,7 @@ class EditMessageWidget extends StatefulWidget {
     this.mesajId,
   }) : super(key: key);
   @override
-  _EditMessageWidgetState createState() => _EditMessageWidgetState();
+  State<EditMessageWidget> createState() => _EditMessageWidgetState();
 }
 
 class _EditMessageWidgetState extends State<EditMessageWidget> {
@@ -60,7 +60,7 @@ class _EditMessageWidgetState extends State<EditMessageWidget> {
 
       _islem = false;
       _mesaj.value = "";
-      if (widget.f != null) widget.f();
+      widget.f();
 
       setState(() {});
     } else {
@@ -82,7 +82,7 @@ class _EditMessageWidgetState extends State<EditMessageWidget> {
         });
         _islem = false;
         _mesaj.value = "";
-        if (widget.f != null) widget.f();
+        widget.f();
 
         setState(() {});
       } else {
@@ -107,7 +107,7 @@ class _EditMessageWidgetState extends State<EditMessageWidget> {
           _islem = false;
           _mesaj.value = "";
 
-          if (widget.f != null) widget.f();
+          widget.f();
 
           setState(() {});
         });
@@ -118,100 +118,65 @@ class _EditMessageWidgetState extends State<EditMessageWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      margin: const EdgeInsets.only(right: 5, left: 5, bottom: 5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(50),
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 100.0),
         child: IntrinsicHeight(
           child: Card(
-            elevation: 0,
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
             child: Row(
               children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    color: const Color(0xffe6e7f7),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.zero,
-                    icon: const Icon(
-                      Icons.image,
-                      color: Color(0xff6462e2),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       color: Colors.white,
-                      border: Border.all(
-                        width: 0.5,
-                        color: Colors.black54,
+                    ),
+                    width: double.maxFinite,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12.0, right: 12),
+                      child: TextField(
+                        controller: TextEditingController(text: _mesaj.value),
+                        expands: true,
+                        maxLines: null,
+                        minLines: null,
+                        onChanged: (m) => _mesaj.value = m,
+                        cursorColor: Colors.purple,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'mesaj yaz..',
+                        ),
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 12.0, right: 12),
-                            child: TextField(
-                              controller:
-                                  TextEditingController(text: _mesaj.value),
-                              expands: true,
-                              maxLines: null,
-                              minLines: null,
-                              onChanged: (m) => _mesaj.value = m,
-                              cursorColor: Colors.purple,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'mesaj yaz..',
-                              ),
-                            ),
-                          ),
-                        ),
-                        ValueListenableBuilder(
-                          valueListenable: _mesaj,
-                          builder: (c, v, _) {
-                            return Container(
-                              height: 40,
-                              width: 40,
-                              padding: const EdgeInsets.all(2),
-                              margin: const EdgeInsets.all(3),
-                              decoration: BoxDecoration(
-                                color: const Color(0xffe6e7f7),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: IconButton(
-                                onPressed: _mesaj.value.length > 0 && !_islem
-                                    ? () async {
-                                        _islem = true;
-                                        setState(() {});
-
-                                        _mesajGonder(_mesaj.value);
-                                      }
-                                    : null,
-                                padding: EdgeInsets.zero,
-                                icon: Icon(
-                                  Icons.send,
-                                  color: _mesaj.value.length > 0
-                                      ? Color(0xff6462e2)
-                                      : Colors.black87,
-                                  size: 20,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
                   ),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: _mesaj,
+                  builder: (c, v, _) {
+                    return IconButton(
+                      onPressed: _mesaj.value.length > 0 && !_islem
+                          ? () async {
+                              _islem = true;
+                              setState(() {});
+
+                              _mesajGonder(_mesaj.value);
+                            }
+                          : null,
+                      icon: Icon(
+                        Icons.send,
+                        color: _mesaj.value.length > 0
+                            ? Colors.orange
+                            : Colors.black,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

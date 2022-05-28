@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:whisperp/consts/index.dart';
 import 'package:whisperp/ui/chat_page.dart';
 import 'package:whisperp/widget/message_card_widget.dart';
 
@@ -14,13 +13,12 @@ class MessagesPage extends StatefulWidget {
   const MessagesPage({Key? key}) : super(key: key);
 
   @override
-  _MessagesPageState createState() => _MessagesPageState();
+  State<MessagesPage> createState() => _MessagesPageState();
 }
 
 class _MessagesPageState extends State<MessagesPage> {
   User? user = FirebaseAuth.instance.currentUser;
   bool done = false;
-  final GlobalKey<ScaffoldState> _scfld = GlobalKey<ScaffoldState>();
   final StreamController<List<DocumentSnapshot>> _controller =
       StreamController<List<DocumentSnapshot>>();
   List<DocumentSnapshot> a = [];
@@ -197,12 +195,7 @@ class _MessagesPageState extends State<MessagesPage> {
   }
 
   getUsers() async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .get()
-        .then((value) => value.docs.forEach((element) {
-              print(element.id);
-            }));
+    await FirebaseFirestore.instance.collection("users").get();
   }
 
   @override
@@ -220,32 +213,23 @@ class _MessagesPageState extends State<MessagesPage> {
 
     super.dispose();
   }
-//6562E2
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, RouteNames.profile);
-            },
-            icon: const Icon(Icons.person,),),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.chat),
-            onPressed: () {
-              Navigator.push(
+      appBar: AppBar(actions: [
+        IconButton(
+          icon: const Icon(Icons.chat),
+          onPressed: () {
+            Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (c) =>
-                      const ChatPage(karsiId: "GXTQEKCoahYgBEZEo25H7SKoWZa2"),
-                ),
-              );
-            },
-          )
-        ],
-      ),
+                    builder: (c) => const ChatPage(
+                        karsiId: "GXTQEKCoahYgBEZEo25H7SKoWZa2")));
+          },
+        )
+      ]),
       body: StreamBuilder<List<DocumentSnapshot>>(
         stream: _controller.stream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {

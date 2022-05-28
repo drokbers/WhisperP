@@ -14,8 +14,9 @@ class UserModel {
   factory UserModel.fromMap(Map map) {
     return UserModel(
       uid: map["uid"],
-      displayName: map["displayName"]??" ",
-      photoURL: map["photoURL"]?? "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png",
+      displayName: map["displayName"] ?? " ",
+      photoURL: map["photoURL"] ??
+          "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png",
       email: map["email"],
     );
   }
