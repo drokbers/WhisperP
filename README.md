@@ -58,3 +58,7 @@ samples, guidance on mobile development, and a full API reference.
 
 - https://pub.dev/packages/flutter_firebase_chat_core
 - https://pub.dev/packages/flutterfire_ui
+
+## Problems
+
+- MacOS internet connection -> https://stackoverflow.com/a/61201081/6378949

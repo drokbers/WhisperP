@@ -6,7 +6,9 @@ import '../extensions/user_ext.dart';
 class FirestoreUserRegisteration {
   final _firestore = FirebaseFirestore.instance;
 
-  Future<void> checkUserIfRegisterated(User user) async {
+  Future<void> checkUserIfRegisterated(User? user) async {
+    if (user == null) return;
+
     final userDoc = await _firestore.collection('users').doc(user.uid).get();
 
     if (userDoc.exists) return;
