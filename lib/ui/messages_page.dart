@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:whisperp/consts/index.dart';
 import 'package:whisperp/ui/chat_page.dart';
 import 'package:whisperp/widget/message_card_widget.dart';
 
@@ -219,23 +220,32 @@ class _MessagesPageState extends State<MessagesPage> {
 
     super.dispose();
   }
-
+//6562E2
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(actions: [
-        IconButton(
-          icon: Icon(Icons.chat),
-          onPressed: () {
-            Navigator.push(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, RouteNames.profile);
+            },
+            icon: const Icon(Icons.person,),),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.chat),
+            onPressed: () {
+              Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (c) =>
-                        ChatPage(karsiId: "GXTQEKCoahYgBEZEo25H7SKoWZa2")));
-          },
-        )
-      ]),
+                  builder: (c) =>
+                      const ChatPage(karsiId: "GXTQEKCoahYgBEZEo25H7SKoWZa2"),
+                ),
+              );
+            },
+          )
+        ],
+      ),
       body: StreamBuilder<List<DocumentSnapshot>>(
         stream: _controller.stream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -339,17 +349,16 @@ class _MessagesPageState extends State<MessagesPage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (c) =>
-                                                    ChatPage(
-                                                  karsiId: (lastDoc.data() as Map<
-                                                                  String,
-                                                                  dynamic>)[
+                                                builder: (c) => ChatPage(
+                                                  karsiId: (lastDoc.data()
+                                                                  as Map<String,
+                                                                      dynamic>)[
                                                               'sender_id'] ==
-                                                         FirebaseAuth.instance.currentUser
-                                                              !.uid
-                                                      ? (lastDoc.data() as Map<
-                                                          String,
-                                                          dynamic>)['receiver_id']
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid
+                                                      ? (lastDoc.data()
+                                                              as Map<String, dynamic>)[
+                                                          'receiver_id']
                                                       : (lastDoc.data() as Map<
                                                           String,
                                                           dynamic>)['sender_id'],
@@ -360,7 +369,8 @@ class _MessagesPageState extends State<MessagesPage> {
                                           },
                                           child: MessageCardWidget(
                                             kId: (lastDoc.data() as Map<String,
-                                                        dynamic>)['sender_id'] ==
+                                                            dynamic>)[
+                                                        'sender_id'] ==
                                                     user!.uid
                                                 ? (lastDoc.data() as Map<String,
                                                     dynamic>)['receiver_id']

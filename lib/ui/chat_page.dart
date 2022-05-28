@@ -25,6 +25,7 @@ class _ChatPageState extends State<ChatPage> {
   final StreamController<List<MessageModel>> _controller =
       StreamController<List<MessageModel>>();
   UserModel? otherUser;
+  Color lightPurple = const Color(0xffe6e7f7);
   List<MessageModel> _messages = [];
   bool _endScroll = true;
   String? _id;
@@ -47,8 +48,8 @@ class _ChatPageState extends State<ChatPage> {
   Future<UserModel> getOther(String id) async {
     DocumentSnapshot<Map> ds =
         await FirebaseFirestore.instance.collection('users').doc(id).get();
-      print(ds.data());
-    return UserModel.fromMap({"uid":ds.id,...ds.data()!});
+    print(ds.data());
+    return UserModel.fromMap({"uid": ds.id, ...ds.data()!});
   }
 
   Future _read(String gDId) async {
@@ -212,7 +213,15 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(0.0),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+        ),
+      ),
+      backgroundColor: lightPurple,
       body: otherUser == null
           ? const Center(child: CircularProgressIndicator())
           : SafeArea(
@@ -224,7 +233,7 @@ class _ChatPageState extends State<ChatPage> {
                     const Expanded(
                       child: Center(
                         child: Text(
-                          'Hiç MessageModel Yok',
+                          'There are no messages',
                           style: TextStyle(
                             color: Colors.black,
                           ),
@@ -247,7 +256,7 @@ class _ChatPageState extends State<ChatPage> {
                           if (!snapshot.hasData) {
                             return const Center(
                               child: Text(
-                                'Hiç MessageModel Yok',
+                                'There are no messages',
                                 style: TextStyle(color: Colors.white),
                               ),
                             );
@@ -255,7 +264,7 @@ class _ChatPageState extends State<ChatPage> {
                             if (snapshot.data!.docs.length < 1) {
                               return const Center(
                                 child: Text(
-                                  'Hiç MessageModel Yok',
+                                  'There are no messages',
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -306,106 +315,74 @@ class _ChatPageState extends State<ChatPage> {
                                         children: <Widget>[
                                           if (messageModel!.message !=
                                               'Message deleted ...')
-                                            if (!benMi)
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.all(10.0),
-                                                height: 35,
-                                                width: 35,
-                                                decoration: BoxDecoration(
-                                                  //  border: Border.all(color: Colors.turuncu57, width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50.0),
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      messageModel.senderImage,
-                                                    ),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                              ),
+                                            if (!benMi) const SizedBox(),
                                           Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: benMi
-                                                  ? CrossAxisAlignment.end
-                                                  : CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  margin: EdgeInsets.only(
-                                                      right: benMi ? 3 : 12.0),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: benMi
-                                                            ? Colors.purple
-                                                            : messageModel
-                                                                        .message ==
-                                                                    'Message deleted ...'
-                                                                ? Colors.white
-                                                                : Colors.orange,
-                                                        width: 1),
-                                                    color: messageModel
-                                                                .message ==
-                                                            'Message deleted ...'
-                                                        ? Colors.grey
-                                                            .withOpacity(0.8)
-                                                        : Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 10),
+                                              child: Column(
+                                                crossAxisAlignment: benMi
+                                                    ? CrossAxisAlignment.end
+                                                    : CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
                                                             10.0),
-                                                  ),
-                                                  child: Text(
-                                                    messageModel.message,
-                                                    style: TextStyle(
-                                                      color: benMi
-                                                          ? Colors.purple
-                                                          : messageModel
-                                                                      .message ==
-                                                                  'Message deleted ...'
-                                                              ? Colors.white
-                                                              : Colors.orange,
+                                                    margin: EdgeInsets.only(
+                                                        right:
+                                                            benMi ? 3 : 12.0),
+                                                    decoration: BoxDecoration(
+                                                      color: messageModel
+                                                                  .message ==
+                                                              'Message deleted ...'
+                                                          ? Colors.grey
+                                                              .withOpacity(0.8)
+                                                          : benMi
+                                                              ? const Color(
+                                                                  0xff6462e2)
+                                                              : const Color(
+                                                                  0xffe370fd),
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topRight:
+                                                            Radius.circular(
+                                                                benMi ? 0 : 15),
+                                                        topLeft:
+                                                            Radius.circular(
+                                                                benMi ? 15 : 0),
+                                                        bottomLeft: const Radius
+                                                            .circular(15),
+                                                        bottomRight:
+                                                            const Radius
+                                                                .circular(15),
+                                                      ),
+                                                    ),
+                                                    child: Text(
+                                                      messageModel.message,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                      right: 12, top: 5),
-                                                  child: Text(
-                                                    "${findTimeDifference(time!)} Önce",
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontStyle:
-                                                          FontStyle.normal,
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 12, top: 5),
+                                                    child: Text(
+                                                      "${findTimeDifference(time!)} Önce",
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 12,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                      ),
                                                     ),
-                                                  ),
-                                                )
-                                              ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                          if (messageModel.message !=
-                                              'Message deleted ...')
-                                            if (benMi)
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.all(10.0),
-                                                height: 35,
-                                                width: 35,
-                                                decoration: BoxDecoration(
-                                                  //   border: Border.all(color: Colors.turuncu57, width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50.0),
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        messageModel
-                                                            .senderImage),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                              ),
                                         ],
                                       ),
                                     ),
@@ -441,59 +418,89 @@ class ChatTopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: SizedBox(
-        height: 40,
-        width: double.maxFinite,
-        child: Row(
-          children: [
-            const SizedBox(width: 8),
-            const ButtonBack(
-              backgroundColor: Colors.orange,
-              borderColor: Colors.orange,
-              height: 30,
-              iconColor: Colors.white,
-              iconSize: 28,
-              width: 30,
-            ),
-            const Spacer(),
-            Row(
-              children: <Widget>[
-                Container(
-                  height: 35,
-                  width: 35,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: Colors.purple, width: 1),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        otherUser!.photoURL,
-                      ),
-                      fit: BoxFit.cover,
+    return Container(
+      color: Colors.white,
+      height: 70,
+      width: double.maxFinite,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(width: 8),
+          const ButtonBack(
+            backgroundColor: Colors.white,
+            borderColor: Colors.white,
+            height: 30,
+            iconColor: Colors.black,
+            iconSize: 28,
+            width: 30,
+          ),
+          const SizedBox(width: 12),
+          Row(
+            children: <Widget>[
+              Container(
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(color: const Color(0xffe6e7f7), width: 1),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      otherUser!.photoURL,
                     ),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  child: Text(
-                    otherUser!.displayName,
+              ),
+              const SizedBox(width: 12),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    otherUser?.displayName ?? 'Unknown',
                     style: const TextStyle(
-                      color: Colors.purple,
+                      color: Colors.black87,
                       fontSize: 14,
                     ),
                   ),
-                )
-              ],
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Container(
+                        height: 8,
+                        width: 8,
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Text(
+                        'Online',
+                        style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
+          const Spacer(),
+          Container(
+            height: 38,
+            width: 38,
+            decoration: BoxDecoration(
+              color: const Color(0xffe6e7f7),
+              borderRadius: BorderRadius.circular(50),
             ),
-            const Spacer(),
-            IconButton(
+            child: IconButton(
+              padding: EdgeInsets.zero,
               icon: const Icon(
-                Icons.more_vert,
-                color: Colors.orange,
+                Icons.phone_outlined,
+                color: Colors.black54,
               ),
               onPressed: () {
                 Fluttertoast.showToast(
@@ -501,8 +508,9 @@ class ChatTopCard extends StatelessWidget {
                 );
               },
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 12),
+        ],
       ),
     );
   }
