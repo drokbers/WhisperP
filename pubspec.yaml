@@ -32,13 +32,15 @@ dependencies:
   firebase_core: ^1.17.0
   firebase_messaging: ^11.4.0
   firebase_storage: ^10.2.16
-  flutter: 
+  flutter:
     sdk: flutter
   flutterfire_ui: ^0.4.1
   fluttertoast: ^8.0.9
+  google_fonts: ^3.0.1
+  hive: ^2.2.1
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -57,9 +59,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
