@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "526226780916",
+    "project_id": "whisperp-88949",
+    "storage_bucket": "whisperp-88949.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526226780916:android:b8c411cb5dd8508df1a4a1",
+        "android_client_info": {
+          "package_name": "com.dogus.whisperp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526226780916-revh8l571kk47aagnrt86btaskdcv8n3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABk_a1m3zFUsYlwgpLX3ZOVIi8Ag0UkVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526226780916-revh8l571kk47aagnrt86btaskdcv8n3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "526226780916-iv53g8kpt92t67unteeps9ujv7j2h4pi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.android.application"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
