@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import 'package:whisperp/messaging_ui/models/chat_message.dart';
+=======
+import 'package:whisperp/messaging_ui/models/ChatMessage.dart';
+>>>>>>> 329fe534ffdd540f43b1d7bd2f94966192b6d3e7
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
@@ -23,7 +27,11 @@ class Message extends StatelessWidget {
         case ChatMessageType.audio:
           return AudioMessage(message: message);
         case ChatMessageType.video:
+<<<<<<< HEAD
           return const VideoMessage();
+=======
+          return VideoMessage();
+>>>>>>> 329fe534ffdd540f43b1d7bd2f94966192b6d3e7
         default:
           return const SizedBox();
       }
@@ -58,9 +66,15 @@ class MessageStatusDot extends StatelessWidget {
   Widget build(BuildContext context) {
     Color dotColor(MessageStatus status) {
       switch (status) {
+<<<<<<< HEAD
         case MessageStatus.notSent:
           return kErrorColor;
         case MessageStatus.notview:
+=======
+        case MessageStatus.not_sent:
+          return kErrorColor;
+        case MessageStatus.not_view:
+>>>>>>> 329fe534ffdd540f43b1d7bd2f94966192b6d3e7
           return Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.1);
         case MessageStatus.viewed:
           return kPrimaryColor;
@@ -78,7 +92,11 @@ class MessageStatusDot extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Icon(
+<<<<<<< HEAD
         status == MessageStatus.notSent ? Icons.close : Icons.done,
+=======
+        status == MessageStatus.not_sent ? Icons.close : Icons.done,
+>>>>>>> 329fe534ffdd540f43b1d7bd2f94966192b6d3e7
         size: 8,
         color: Theme.of(context).scaffoldBackgroundColor,
       ),

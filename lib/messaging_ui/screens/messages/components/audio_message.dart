@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import 'package:whisperp/messaging_ui/models/chat_message.dart';
+=======
+import 'package:whisperp/messaging_ui/models/ChatMessage.dart';
+>>>>>>> 329fe534ffdd540f43b1d7bd2f94966192b6d3e7
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';

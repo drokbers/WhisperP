@@ -3,7 +3,11 @@ import 'package:flutterfire_ui/auth.dart';
 import 'package:whisperp/consts/index.dart';
 import 'package:whisperp/messaging_ui/components/filled_outline_button.dart';
 import 'package:whisperp/messaging_ui/constants.dart';
+<<<<<<< HEAD
 import 'package:whisperp/messaging_ui/models/chat.dart';
+=======
+import 'package:whisperp/messaging_ui/models/Chat.dart';
+>>>>>>> 329fe534ffdd540f43b1d7bd2f94966192b6d3e7
 import 'package:whisperp/messaging_ui/screens/messages/message_screen.dart';
 
 import 'chat_card.dart';
@@ -59,7 +63,11 @@ class Body extends StatelessWidget {
                     press: () => Navigator.push(
                       context,
                       MaterialPageRoute(
+<<<<<<< HEAD
                         builder: (context) => const MessagesScreen(),
+=======
+                        builder: (context) => MessagesScreen(),
+>>>>>>> 329fe534ffdd540f43b1d7bd2f94966192b6d3e7
                       ),
                     ),
                   ),
