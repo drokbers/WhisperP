@@ -7,10 +7,7 @@ import 'text_message.dart';
 import 'video_message.dart';
 
 class Message extends StatelessWidget {
-  const Message({
-    Key? key,
-    required this.message,
-  }) : super(key: key);
+  const Message({super.key, required this.message});
 
   final ChatMessage message;
 

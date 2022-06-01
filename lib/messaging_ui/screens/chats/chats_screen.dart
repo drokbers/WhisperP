@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_listener/hive_listener.dart';
+import 'package:whisperp/consts/index.dart';
 import 'package:whisperp/messaging_ui/constants.dart';
 
 import 'components/body.dart';
@@ -60,7 +63,23 @@ class _ChatsScreenState extends State<ChatsScreen> {
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, RouteNames.searchScreen);
+          },
+        ),
+        HiveListener(
+          box: Hive.box(BoxNames.settings),
+          keys: const ['dark-theme'],
+          builder: (box) {
+            final isDarkTheme =
+                box.get('dark-theme', defaultValue: false) as bool;
+            return IconButton(
+              icon: Icon(isDarkTheme ? Icons.light_mode : Icons.dark_mode),
+              onPressed: () {
+                box.put('dark-theme', !isDarkTheme);
+              },
+            );
+          },
         ),
       ],
     );

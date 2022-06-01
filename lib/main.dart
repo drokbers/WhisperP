@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_listener/hive_listener.dart';
 
 import 'consts/index.dart';
 import 'firebase_options.dart';
@@ -27,19 +28,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSkipped =
-        Hive.box(BoxNames.settings).get('is-skipped', defaultValue: false);
+    final isSkipped = Hive.box(BoxNames.settings).get(
+      'is-skipped',
+      defaultValue: false,
+    );
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightThemeData(context),
-      darkTheme: darkThemeData(context),
-      initialRoute: isSkipped
-          ? FirebaseAuth.instance.currentUser == null
-              ? RouteNames.signInOrSignUpScreen
-              : RouteNames.chatScreen
-          : RouteNames.welcomeScreen,
-      routes: AppRoutes.routes,
+    return HiveListener(
+      box: Hive.box(BoxNames.settings),
+      keys: const ['dark-theme'],
+      builder: (box) {
+        final isDarkTheme = box.get('dark-theme', defaultValue: false) as bool;
+
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          themeMode: isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+          theme: lightThemeData(context),
+          darkTheme: darkThemeData(context),
+          initialRoute: isSkipped
+              ? FirebaseAuth.instance.currentUser == null
+                  ? RouteNames.signInOrSignUpScreen
+                  : RouteNames.chatScreen
+              : RouteNames.welcomeScreen,
+          routes: AppRoutes.routes,
+        );
+      },
     );
   }
 }

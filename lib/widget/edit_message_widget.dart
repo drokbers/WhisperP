@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../model/message_model.dart';
+import '../models/message_model.dart';
 
 class EditMessageWidget extends StatefulWidget {
   final Function f;

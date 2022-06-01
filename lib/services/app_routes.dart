@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'package:whisperp/messaging_ui/screens/search/search_screen.dart';
 import 'package:whisperp/messaging_ui/screens/signinOrSignUp/signin_or_signup_screen.dart';
 import 'package:whisperp/messaging_ui/screens/welcome/welcome_screen.dart';
 
@@ -30,5 +31,6 @@ class AppRoutes {
     RouteNames.welcomeScreen: (_) => const WelcomeScreen(),
     RouteNames.signInOrSignUpScreen: (_) => const SigninOrSignupScreen(),
     RouteNames.chatScreen: (_) => const ChatsScreen(),
+    RouteNames.searchScreen: (_) => SearchScreen(),
   };
 }

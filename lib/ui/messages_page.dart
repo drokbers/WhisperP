@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:whisperp/ui/chat_page.dart';
 import 'package:whisperp/widget/message_card_widget.dart';
 
-import '../model/message_model.dart';
+import '../models/message_model.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({Key? key}) : super(key: key);

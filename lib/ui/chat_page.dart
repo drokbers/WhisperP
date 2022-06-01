@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:whisperp/model/user_model.dart';
+import 'package:whisperp/models/user_model.dart';
 
-import '../model/message_model.dart';
+import '../models/message_model.dart';
 import '../widget/button_back.dart';
 import '../widget/edit_message_widget.dart';
 

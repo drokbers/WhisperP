@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whisperp/model/message_model.dart';
+import 'package:whisperp/models/message_model.dart';
 
 class MessageWidget extends StatelessWidget {
   const MessageWidget({Key? key, required this.messageModel}) : super(key: key);
