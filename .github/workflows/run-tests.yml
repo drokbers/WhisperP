@@ -1,0 +1,41 @@
+name: Run Tests
+
+on: # triggering => https://docs.github.com/en/actions/using-workflows/triggering-a-workflow
+  push:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    name: Run Tests
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v2
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.0.1
+          channel: stable
+          cache: true
+
+      - name: ✨ Check Formatting
+        run: flutter format --set-exit-if-changed lib test
+
+      - name: 🕵️ Analyze
+        run: flutter analyze lib test
+
+      - name: 🧪 Run Tests and Analyze Coverage
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
+      # - name: Commit and push if coverage percentage changed
+      #   run: |-
+      #     dart env/analyze.dart
+      #     git add .
+      #     git config --global user.email "malibayram91@gmail.com"
+      #     git config --global user.name "GitHub Action Bot"
+      #     git commit -m "Updated test coverage badge in README" -a || echo "No changes to commit"
+      #     git push
