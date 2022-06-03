@@ -21,12 +21,10 @@ jobs:
           cache: true
 
       - name: 📦 Install Dependencies
-        run: |
-          flutter pub get
+        run: flutter pub get
 
       - name: Build Web App
-        run: |
-          flutter build web
+        run: flutter build web
 
       - name: Deploy Web App
       - uses: FirebaseExtended/action-hosting-deploy@v0
