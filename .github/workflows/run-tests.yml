@@ -1,18 +1,15 @@
 name: Run Tests
 
 on: # triggering => https://docs.github.com/en/actions/using-workflows/triggering-a-workflow
-  pull_request:
-    branches:
-      - main
-    types: [closed]
   push:
     branches:
       - main
+      - dev-4-cicd-pipeline-web-firebase-hosting
 
 jobs:
   run-tests:
     name: Run Tests
-    if: ${{ github.event.pull_request.merged }}
+    # if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
 
     steps:
