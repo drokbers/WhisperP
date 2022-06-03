@@ -2,6 +2,14 @@
 
 A new Flutter project.
 
+### Our project will be live on every push on this link: https://whisperp.web.app
+
+We are using:
+
+- GIT hooks to increase version number before push it the the Github
+- Github Actions as CI/CD tool to deploy our project to hositing
+- Firebase hosting to serve our demo apps for every step of development
+
 ## Styles
 
 ## Development

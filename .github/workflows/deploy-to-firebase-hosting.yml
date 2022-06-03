@@ -1,10 +1,10 @@
 name: Deploy to Firebase Hosting
 
-on:
-  workflow_run:
-    workflows: ["Run Tests"]
-    types:
-      - completed
+on: # triggering => https://docs.github.com/en/actions/using-workflows/triggering-a-workflow
+  push:
+    branches:
+      - main
+      - dev-4-cicd-pipeline-web-firebase-hosting
 
 jobs:
   build-and-deploy:
@@ -21,15 +21,13 @@ jobs:
           cache: true
 
       - name: 📦 Install Dependencies
-        run: |
-          flutter pub get
+        run: flutter pub get
 
       - name: Build Web App
-        run: |
-          flutter build web
+        run: flutter build web
 
       - name: Deploy Web App
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" # https://firebase.google.com/docs/admin/setup#:~:text=To%20authenticate%20a%20service%20account,confirm%20by%20clicking%20Generate%20Key.
