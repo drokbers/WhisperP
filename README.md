@@ -62,3 +62,17 @@ samples, guidance on mobile development, and a full API reference.
 ## Problems
 
 - MacOS internet connection -> https://stackoverflow.com/a/61201081/6378949
+
+## WebRTC
+
+- https://flutter-webrtc.org/
+- https://www.100ms.live/blog/flutter-webrtc
+- https://youtu.be/ZqvOwCzBxw8
+- https://youtu.be/hAKQzNQmNe0
+
+- https://github.com/flutter-webrtc/callkeep
+- https://pub.dev/packages/flutter_incoming_call
+
+## Codes and Repos Used in The Project
+
+- https://github.com/abuanwar072/Chat-Messaging-App-Light-and-Dark-Theme
