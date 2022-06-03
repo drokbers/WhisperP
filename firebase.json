@@ -2,6 +2,7 @@
   "hosting": [
     {
       "public": "build/web",
+      "site": "whisperp-88949",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
@@ -13,7 +14,6 @@
     {
       "public": "build/web",
       "site": "whisperp",
-      "target": "whisperp",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {

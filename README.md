@@ -2,7 +2,7 @@
 
 A new Flutter project.
 
-### Our project will be live on every push on this link: https://whisperp-88949.web.app/
+### Our project will be live on every push on this link: https://whisperp.web.app
 
 ## Styles
 
