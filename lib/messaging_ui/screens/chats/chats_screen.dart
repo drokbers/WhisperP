@@ -1,9 +1,13 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_listener/hive_listener.dart';
 import 'package:whisperp/consts/index.dart';
 import 'package:whisperp/messaging_ui/constants.dart';
 
+import '../../../services/firestore_user_registeration.dart';
 import 'components/body.dart';
 
 class ChatsScreen extends StatefulWidget {
@@ -14,7 +18,26 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
+  late final StreamSubscription? _userChanges;
+
   int _selectedIndex = 1;
+
+  @override
+  void initState() {
+    _userChanges = FirebaseAuth.instance.userChanges().listen((event) {
+      FirestoreUserRegisteration().checkUserIfRegisterated(event);
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _userChanges?.cancel();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

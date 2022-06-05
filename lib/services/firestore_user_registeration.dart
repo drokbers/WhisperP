@@ -11,7 +11,16 @@ class FirestoreUserRegisteration {
 
     final userDoc = await _firestore.collection('users').doc(user.uid).get();
 
-    if (userDoc.exists) return;
+    if (userDoc.exists) {
+      if (userDoc.data()!['displayName'] == user.displayName) {
+        return;
+      }
+
+      await _firestore.collection('users').doc(user.uid).update({
+        'displayName': user.displayName,
+      });
+      return;
+    }
 
     await _firestore.collection('users').doc(user.uid).set(user.toJson());
   }
