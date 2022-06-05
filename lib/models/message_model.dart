@@ -33,7 +33,8 @@ class MessageModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
+
     data['sender_image'] = senderImage;
     data['timestamp'] = timestamp;
     data['sender_id'] = senderId;
@@ -42,6 +43,7 @@ class MessageModel {
     data['message'] = message;
     data['read'] = read;
     data['relations'] = relations;
+
     return data;
   }
 }

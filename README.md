@@ -70,6 +70,9 @@ samples, guidance on mobile development, and a full API reference.
 ## Problems
 
 - MacOS internet connection -> https://stackoverflow.com/a/61201081/6378949
+- Resume the app from background -> https://stackoverflow.com/a/63506189
+- Store data when the app on background -> https://stackoverflow.com/a/63506189
+- https://pub.dev/packages/encrypt
 
 ## WebRTC
 
