@@ -73,3 +73,17 @@ samples, guidance on mobile development, and a full API reference.
 - Resume the app from background -> https://stackoverflow.com/a/63506189
 - Store data when the app on background -> https://stackoverflow.com/a/63506189
 - https://pub.dev/packages/encrypt
+
+## WebRTC
+
+- https://flutter-webrtc.org/
+- https://www.100ms.live/blog/flutter-webrtc
+- https://youtu.be/ZqvOwCzBxw8
+- https://youtu.be/hAKQzNQmNe0
+
+- https://github.com/flutter-webrtc/callkeep
+- https://pub.dev/packages/flutter_incoming_call
+
+## Codes and Repos Used in The Project
+
+- https://github.com/abuanwar072/Chat-Messaging-App-Light-and-Dark-Theme
