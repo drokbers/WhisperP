@@ -1,6 +1,6 @@
 import 'package:whisperp/consts/index.dart';
-import 'package:whisperp/messaging_ui/components/primary_button.dart';
-import 'package:whisperp/messaging_ui/constants.dart';
+import 'package:whisperp/ui/components/primary_button.dart';
+import 'package:whisperp/ui/constants.dart';
 import 'package:flutter/material.dart';
 
 class SigninOrSignupScreen extends StatelessWidget {

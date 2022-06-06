@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../models/chat.dart';
-import '../chats/components/chat_card.dart';
-import '../messages/message_screen.dart';
+import '../../../consts/index.dart';
+import '../../../models/user_model.dart';
+import 'search_result_card.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
@@ -27,21 +28,18 @@ class SearchScreen extends StatelessWidget {
       body: ValueListenableBuilder<String>(
         valueListenable: searchText,
         builder: (_, value, __) {
-          final resultList = value.isEmpty
+          final List<UserModel> resultList = value.isEmpty
               ? []
-              : chatsData.where((e) => e.toString().contains(value)).toList();
+              : Hive.box<UserModel>(BoxNames.users)
+                  .values
+                  .where((e) => e.toString().contains(value))
+                  .toList();
 
           return ListView.builder(
             itemCount: resultList.length,
-            itemBuilder: (context, index) => ChatCard(
-              chat: resultList[index],
-              press: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MessagesScreen(),
-                ),
-              ),
-            ),
+            itemBuilder: (context, index) {
+              return SearchResultCard(user: resultList[index]);
+            },
           );
         },
       ),

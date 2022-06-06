@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
-import 'package:whisperp/messaging_ui/screens/search/search_screen.dart';
-import 'package:whisperp/messaging_ui/screens/signinOrSignUp/signin_or_signup_screen.dart';
-import 'package:whisperp/messaging_ui/screens/welcome/welcome_screen.dart';
+import 'package:whisperp/ui/screens/search/search_screen.dart';
+import 'package:whisperp/ui/screens/signinOrSignUp/signin_or_signup_screen.dart';
+import 'package:whisperp/ui/screens/welcome/welcome_screen.dart';
 
 import '../consts/index.dart';
-import '../messaging_ui/screens/chats/chats_screen.dart';
-import '../ui/messages_page.dart';
+import '../ui/screens/chats/chats_screen.dart';
+import '../ui/screens/messages/message_screen.dart';
 import 'firestore_user_registeration.dart';
 
 class AppRoutes {
@@ -27,7 +27,7 @@ class AppRoutes {
     RouteNames.register: (_) {
       return const RegisterScreen(providerConfigs: _providerConfigs);
     },
-    RouteNames.messagingPage: (_) => const MessagesPage(),
+    RouteNames.messagesScreen: (_) => const MessagesScreen(),
     RouteNames.welcomeScreen: (_) => const WelcomeScreen(),
     RouteNames.signInOrSignUpScreen: (_) => const SigninOrSignupScreen(),
     RouteNames.chatScreen: (_) => const ChatsScreen(),

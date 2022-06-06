@@ -3,10 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_listener/hive_listener.dart';
+import 'package:whisperp/models/user_model.dart';
 
 import 'consts/index.dart';
 import 'firebase_options.dart';
-import 'messaging_ui/theme.dart';
+import 'ui/theme.dart';
 import 'services/app_routes.dart';
 
 void main() async {
@@ -19,6 +20,10 @@ void main() async {
   await Hive.initFlutter();
 
   await Hive.openBox(BoxNames.settings);
+
+  Hive.registerAdapter(UserModelAdapter());
+
+  await Hive.openBox<UserModel>(BoxNames.users);
 
   runApp(const MyApp());
 }

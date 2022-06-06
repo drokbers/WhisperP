@@ -1,4 +1,4 @@
-import 'package:whisperp/messaging_ui/constants.dart';
+import 'package:whisperp/ui/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'components/body.dart';

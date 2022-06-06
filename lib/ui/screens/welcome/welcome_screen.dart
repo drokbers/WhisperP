@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:whisperp/consts/index.dart';
-import 'package:whisperp/messaging_ui/constants.dart';
+import 'package:whisperp/ui/constants.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
