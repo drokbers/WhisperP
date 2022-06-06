@@ -1,5 +1,5 @@
 PODS:
-  - cloud_firestore (3.1.15):
+  - cloud_firestore (3.1.17):
     - Firebase/CoreOnly (~> 8.15.0)
     - Firebase/Firestore (~> 8.15.0)
     - firebase_core
@@ -23,25 +23,25 @@ PODS:
   - Firebase/Storage (8.15.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 8.15.0)
-  - firebase_auth (3.3.18):
+  - firebase_auth (3.3.19):
     - Firebase/Auth (~> 8.15.0)
     - Firebase/CoreOnly (~> 8.15.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_core (1.17.0):
+  - firebase_core (1.17.1):
     - Firebase/CoreOnly (~> 8.15.0)
     - FlutterMacOS
-  - firebase_database (9.0.14):
+  - firebase_database (9.0.15):
     - Firebase/CoreOnly (~> 8.15.0)
     - Firebase/Database (~> 8.15.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_messaging (11.4.0):
+  - firebase_messaging (11.4.1):
     - Firebase/CoreOnly (~> 8.15.0)
     - Firebase/Messaging (~> 8.15.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_storage (10.2.16):
+  - firebase_storage (10.2.17):
     - Firebase/CoreOnly (~> 8.15.0)
     - Firebase/Storage (~> 8.15.0)
     - firebase_core
@@ -87,7 +87,7 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.5)
   - flutter_webrtc (0.7.1):
     - FlutterMacOS
-    - WebRTC-SDK (= 97.4692.02)
+    - WebRTC-SDK (= 97.4692.05)
   - FlutterMacOS (1.0.0)
   - GoogleDataTransport (9.1.4):
     - GoogleUtilities/Environment (~> 7.7)
@@ -122,7 +122,7 @@ PODS:
   - PromisesObjC (2.1.0)
   - sign_in_with_apple (0.0.1):
     - FlutterMacOS
-  - WebRTC-SDK (97.4692.02)
+  - WebRTC-SDK (97.4692.05)
 
 DEPENDENCIES:
   - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
@@ -189,14 +189,14 @@ CHECKOUT OPTIONS:
     :tag: 8.15.0
 
 SPEC CHECKSUMS:
-  cloud_firestore: 0eee7f9ed0b7fa2ae947b6023f637b4d973fd57f
+  cloud_firestore: 9122e411bd8ad0b5c4fb72581dd2fcefa4bfeeed
   desktop_webview_auth: 9bba53a29c9bc6a4ff621fd0ebfbb18856c4dada
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
-  firebase_auth: 5b7faa82249b4157ea4a80952582289cc7a8d0b4
-  firebase_core: 895eaa063bde36f163d959810717e0f7a3bac614
-  firebase_database: 3e2bf4788b3901609b9c65df82d9dde3d4c2e024
-  firebase_messaging: 822d21e8fd9ed8f849a51a4480676a2f934abb98
-  firebase_storage: 897b8316581dd8032499656bb5bc106c2cbb7c85
+  firebase_auth: 5719d06eb4b1c19a3afa58e4dfcd8c7912754241
+  firebase_core: 7b87364e2d1eae70018a60698e89e7d6f5320bad
+  firebase_database: 315003c298d4dc32b4bd8eb06c99a3efd959cd1b
+  firebase_messaging: e319ed0a19e37b556c6d9df89e275e36d32a3973
+  firebase_storage: 547c1e1158f762fd1f122baab025aeae9fa56772
   FirebaseAuth: 3e73bf8abf4fbb40f8b421f361f4cc48ee57388c
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
@@ -205,7 +205,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   FirebaseMessaging: 5e5118a2383b3531e730d974680954c679ca0a13
   FirebaseStorage: 8019af461599b2c3bc61c6a5dbdfa3d2de66a4d9
-  flutter_webrtc: 949e056193e40c1f565f65b4cb680ac001120a72
+  flutter_webrtc: 37c4efd66d9d306878c1323d5ac5a1d10c748b3a
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
@@ -215,8 +215,8 @@ SPEC CHECKSUMS:
   path_provider_macos: 3c0c3b4b0d4a76d2bf989a913c2de869c5641a19
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   sign_in_with_apple: a9e97e744e8edc36aefc2723111f652102a7a727
-  WebRTC-SDK: dda4e50186f9eed672dc6bcf4faafb30c6ce48e3
+  WebRTC-SDK: a6ee40bda0e3f7dba057907c3897374005c5715b
 
 PODFILE CHECKSUM: 64010111776499227bce757be7386e894b97ec69
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
