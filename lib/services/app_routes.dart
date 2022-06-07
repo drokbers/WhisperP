@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'package:whisperp/ui/screens/main/main_screen.dart';
 import 'package:whisperp/ui/screens/search/search_screen.dart';
 import 'package:whisperp/ui/screens/signinOrSignUp/signin_or_signup_screen.dart';
 import 'package:whisperp/ui/screens/welcome/welcome_screen.dart';
 
 import '../consts/index.dart';
-import '../ui/screens/chats/chats_screen.dart';
-import '../ui/screens/messages/message_screen.dart';
+import '../ui/screens/messages/messages_screen.dart';
 import 'firestore_user_registeration.dart';
 
 class AppRoutes {
@@ -19,7 +19,8 @@ class AppRoutes {
         actions: [
           AuthStateChangeAction<SignedIn>((context, state) {
             FirestoreUserRegisteration().checkUserIfRegisterated(state.user);
-            Navigator.pushReplacementNamed(context, RouteNames.chatScreen);
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pushReplacementNamed(context, RouteNames.mainScreen);
           }),
         ],
       );
@@ -30,7 +31,7 @@ class AppRoutes {
     RouteNames.messagesScreen: (_) => const MessagesScreen(),
     RouteNames.welcomeScreen: (_) => const WelcomeScreen(),
     RouteNames.signInOrSignUpScreen: (_) => const SigninOrSignupScreen(),
-    RouteNames.chatScreen: (_) => const ChatsScreen(),
+    RouteNames.mainScreen: (_) => const MainScreen(),
     RouteNames.searchScreen: (_) => SearchScreen(),
   };
 }

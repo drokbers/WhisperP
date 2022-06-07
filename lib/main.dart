@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           initialRoute: isSkipped
               ? FirebaseAuth.instance.currentUser == null
                   ? RouteNames.signInOrSignUpScreen
-                  : RouteNames.chatScreen
+                  : RouteNames.mainScreen
               : RouteNames.welcomeScreen,
           routes: AppRoutes.routes,
         );

@@ -13,7 +13,11 @@ class SearchResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, RouteNames.messagesScreen);
+        Navigator.pushNamed(
+          context,
+          RouteNames.messagesScreen,
+          arguments: user,
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
