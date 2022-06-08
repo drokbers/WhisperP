@@ -9,18 +9,15 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SafeArea(
+      body: SafeArea(
+        child: Center(
           child: Column(
             children: [
-              const Spacer(flex: 2),
               Expanded(
-                flex: 8,
                 child: Image.asset(
                   AssetsPath.welcomeImage,
                 ),
               ),
-              const Spacer(flex: 3),
               Text(
                 Str.welcomeMessage1,
                 textAlign: TextAlign.center,
@@ -29,7 +26,9 @@ class WelcomeScreen extends StatelessWidget {
                       fontSize: 25,
                     ),
               ),
-              const Spacer(),
+              SizedBox(
+                height: 25,
+              ),
               Text(
                 Str.welcomeMessage2,
                 textAlign: TextAlign.center,
@@ -40,42 +39,44 @@ class WelcomeScreen extends StatelessWidget {
                         .color!
                         .withOpacity(0.7)),
               ),
-              const Spacer(flex: 2),
-              FittedBox(
-                child: TextButton(
-                  onPressed: () {
-                    Hive.box(BoxNames.settings).put('is-skipped', true);
-                    Navigator.pushNamed(
-                      context,
-                      RouteNames.signInOrSignUpScreen,
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        "Skip",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color!
-                                  .withOpacity(0.8),
-                            ),
-                      ),
-                      const SizedBox(width: kDefaultPadding / 4),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color!
-                            .withOpacity(0.8),
-                      )
-                    ],
-                  ),
+              SizedBox(
+                height: 30,
+              ),
+              TextButton(
+                onPressed: () {
+                  Hive.box(BoxNames.settings).put('is-skipped', true);
+                  Navigator.pushNamed(
+                    context,
+                    RouteNames.signInOrSignUpScreen,
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Skip",
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .color!
+                                .withOpacity(0.8),
+                          ),
+                    ),
+                    const SizedBox(width: kDefaultPadding / 4),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .color!
+                          .withOpacity(0.8),
+                    )
+                  ],
                 ),
-              )
+              ),
+              const SizedBox(height: 24),
             ],
           ),
         ),
