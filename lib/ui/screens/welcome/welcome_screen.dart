@@ -26,9 +26,7 @@ class WelcomeScreen extends StatelessWidget {
                       fontSize: 25,
                     ),
               ),
-              SizedBox(
-                height: 25,
-              ),
+              const SizedBox(height: 18),
               Text(
                 Str.welcomeMessage2,
                 textAlign: TextAlign.center,
@@ -39,9 +37,7 @@ class WelcomeScreen extends StatelessWidget {
                         .color!
                         .withOpacity(0.7)),
               ),
-              SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 18),
               TextButton(
                 onPressed: () {
                   Hive.box(BoxNames.settings).put('is-skipped', true);

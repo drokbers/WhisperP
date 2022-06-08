@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whisperp/consts/index.dart';
 import 'package:whisperp/ui/constants.dart';
 
-import '../../models/chat.dart';
+import '../../../models/chat.dart';
 import 'components/chat_card.dart';
 
 class ChatScreen extends StatelessWidget {

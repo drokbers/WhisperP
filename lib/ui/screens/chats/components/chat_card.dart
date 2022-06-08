@@ -1,4 +1,4 @@
-import 'package:whisperp/ui/models/chat.dart';
+import 'package:whisperp/models/chat.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
