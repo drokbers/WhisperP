@@ -24,7 +24,7 @@ class ChatCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage: AssetImage(chat.image),
+                  backgroundImage: NetworkImage(chat.image),
                 ),
                 if (chat.isActive)
                   Positioned(
@@ -75,7 +75,9 @@ class ChatCard extends StatelessWidget {
             ),
             Opacity(
               opacity: 0.64,
-              child: Text(chat.time),
+              child: Text(chat.time.isEmpty
+                  ? chat.time
+                  : chat.time.split(' ').last.substring(0, 5)),
             ),
           ],
         ),

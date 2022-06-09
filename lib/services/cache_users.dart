@@ -15,7 +15,7 @@ class CacheUsersService {
       final regTimes = box.values
           .map((e) => e.registerationTime.millisecondsSinceEpoch)
           .toList()
-        ..sort();
+        ..sort((a, b) => b.compareTo(a));
 
       lastUserRegisterationTime =
           DateTime.fromMillisecondsSinceEpoch(regTimes.first);
@@ -26,7 +26,7 @@ class CacheUsersService {
 
     final usersQuerySnapshot = await FirebaseFirestore.instance
         .collection('users')
-        .orderBy('registerationTime', descending: true)
+        .orderBy('registerationTime')
         .startAfter([Timestamp.fromDate(lastUserRegisterationTime)]).get();
 
     if (usersQuerySnapshot.docs.isNotEmpty) {

@@ -31,11 +31,12 @@ class WelcomeScreen extends StatelessWidget {
                 Str.welcomeMessage2,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .color!
-                        .withOpacity(0.7)),
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color!
+                      .withOpacity(0.7),
+                ),
               ),
               const SizedBox(height: 18),
               TextButton(

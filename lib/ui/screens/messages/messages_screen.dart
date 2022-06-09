@@ -76,6 +76,11 @@ class MessagesScreen extends StatelessWidget {
 
             if (doc2.exists) return doc2.id;
 
+            await colRef.doc("$uid::${user.uid}").set({
+              'participants': [uid, user.uid],
+              'timestamp': FieldValue.serverTimestamp(),
+            });
+
             // KISS - SOLID - DRY - WET
 
             return "$uid::${user.uid}";
@@ -88,8 +93,9 @@ class MessagesScreen extends StatelessWidget {
                     .doc(docId)
                     .collection('messages')
                     .orderBy('timestamp', descending: true)
-                    .endBefore(
-                        [Timestamp.fromDate(DateTime(2022, 1, 1))]).snapshots(),
+                    .endBefore([
+                  Timestamp.fromDate(DateTime(2022, 1, 1)),
+                ]).snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final docs = snapshot.data!.docs;
@@ -100,14 +106,16 @@ class MessagesScreen extends StatelessWidget {
                           child: ListView.builder(
                             reverse: true,
                             itemCount: docs.length,
-                            itemBuilder: (context, index) =>
-                                Text(docs[index].data()['text']),
+                            itemBuilder: (context, index) {
+                              return Text(docs[index].data()['text']);
+                            },
                           ),
                         ),
                         ChatInputField(messagesDocId: docId),
                       ],
                     );
                   }
+
                   return const Center(child: CircularProgressIndicator());
                 },
               );
