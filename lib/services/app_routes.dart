@@ -19,8 +19,10 @@ class AppRoutes {
         actions: [
           AuthStateChangeAction<SignedIn>((context, state) {
             FirestoreUserRegisteration().checkUserIfRegisterated(state.user);
-            Navigator.popUntil(context, (route) => route.isFirst);
-            Navigator.pushReplacementNamed(context, RouteNames.mainScreen);
+            Navigator.popUntil(context,
+                (route) => route.isFirst); //We are clearing the nav state.
+            Navigator.pushReplacementNamed(context,
+                RouteNames.mainScreen); //We put main in the last element.
           }),
         ],
       );
