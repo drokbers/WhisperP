@@ -12,13 +12,10 @@ class CacheUsersService {
     DateTime lastUserRegisterationTime = DateTime(2022, 1, 1);
 
     if (box.isNotEmpty) {
-      final regTimes = box.values
-          .map((e) => e.registerationTime.millisecondsSinceEpoch)
-          .toList()
+      final regTimes = box.values.map((e) => e.registerationDateTime).toList()
         ..sort((a, b) => b.compareTo(a));
 
-      lastUserRegisterationTime =
-          DateTime.fromMillisecondsSinceEpoch(regTimes.first);
+      lastUserRegisterationTime = regTimes.first;
     }
 
     debugPrint("lastUserRegisterationTime: $lastUserRegisterationTime");
@@ -27,7 +24,11 @@ class CacheUsersService {
     final usersQuerySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .orderBy('registerationTime')
-        .startAfter([Timestamp.fromDate(lastUserRegisterationTime)]).get();
+        .startAfter([
+      Timestamp.fromMillisecondsSinceEpoch(
+        lastUserRegisterationTime.millisecondsSinceEpoch,
+      )
+    ]).get();
 
     if (usersQuerySnapshot.docs.isNotEmpty) {
       debugPrint("usersQuerySnapshot: ${usersQuerySnapshot.docs.length}");

@@ -16,14 +16,14 @@ class UserModel {
   @HiveField(3)
   final String email;
   @HiveField(4)
-  final DateTime registerationTime;
+  final int registerationMS;
 
   const UserModel({
     required this.uid,
     required this.displayName,
     required this.photoURL,
     required this.email,
-    required this.registerationTime,
+    required this.registerationMS,
   });
 
   factory UserModel.fromMap(final Map map, {String? uid}) {
@@ -32,9 +32,11 @@ class UserModel {
       displayName: map["displayName"] ?? "",
       photoURL: map["photoURL"] ?? Str.dummyProfilePhotoUrl,
       email: map["email"],
-      registerationTime: map["registerationTime"] is Timestamp
-          ? map["registerationTime"].toDate()
-          : map["registerationTime"],
+      registerationMS: (map["registerationTime"] is Timestamp
+                  ? (map["registerationTime"] as Timestamp).toDate()
+                  : map["registerationTime"] as DateTime)
+              .millisecondsSinceEpoch -
+          DateTime(2022).millisecondsSinceEpoch,
     );
   }
 
@@ -44,10 +46,18 @@ class UserModel {
       "displayName": displayName,
       "photoURL": photoURL,
       "email": email,
-      "registerationTime": registerationTime,
+      "registerationTime": DateTime.fromMillisecondsSinceEpoch(
+        DateTime(2022).millisecondsSinceEpoch + registerationMS,
+      ),
     };
   }
 
   @override
   String toString() => "$displayName $email";
+
+  DateTime get registerationDateTime {
+    return DateTime.fromMillisecondsSinceEpoch(
+      DateTime(2022).millisecondsSinceEpoch + registerationMS,
+    );
+  }
 }
