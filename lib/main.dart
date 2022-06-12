@@ -3,12 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_listener/hive_listener.dart';
-import 'package:whisperp/models/user_model.dart';
 
 import 'consts/index.dart';
 import 'firebase_options.dart';
-import 'ui/theme.dart';
+import 'models/user_model.dart';
 import 'services/app_routes.dart';
+import 'ui/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

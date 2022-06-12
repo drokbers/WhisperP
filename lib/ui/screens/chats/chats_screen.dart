@@ -78,12 +78,14 @@ class ChatScreen extends StatelessWidget {
                     if (fsnapshot.hasData) {
                       return ChatCard(
                         chat: fsnapshot.data!,
-                        press: () => Navigator.pushNamed(
-                          context,
-                          RouteNames.messagesScreen,
-                          arguments:
-                              Hive.box<UserModel>(BoxNames.users).get(partId),
-                        ),
+                        press: () {
+                          Navigator.pushNamed(
+                            context,
+                            RouteNames.messagesScreen,
+                            arguments:
+                                Hive.box<UserModel>(BoxNames.users).get(partId),
+                          );
+                        },
                       );
                     }
 
