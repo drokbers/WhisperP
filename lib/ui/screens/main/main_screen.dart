@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cached_network_image_builder/cached_network_image_builder.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
@@ -34,6 +34,9 @@ class _MainScreenState extends State<MainScreen> {
     CacheUsersService.getAndSaveUsers();
 
     super.initState();
+
+    debugPrint( "CurrentUser photoUrl: ${FirebaseAuth.instance.currentUser!.photoURL}");
+    
   }
 
   @override
@@ -100,14 +103,12 @@ class _MainScreenState extends State<MainScreen> {
             icon: CircleAvatar(
               radius: 14,
               child: ClipOval(
-                child: CachedNetworkImageBuilder(
-                  url: FirebaseAuth.instance.currentUser!.photoURL ??
-                      Str.dummyProfilePhotoUrl,
-                  builder: (image) {
-                    return Image.file(image);
-                  },
-                ),
-              ),
+                  child: CachedNetworkImage(
+                imageUrl: FirebaseAuth.instance.currentUser!.photoURL ??
+                    Str.dummyProfilePhotoUrl,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+              )),
             ),
             label: "Profile",
           ),

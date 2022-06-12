@@ -5,5 +5,5 @@ class Str {
   static const welcomeMessage2 =
       "Talk freely and safely to \nwhomever you want.";
   static const dummyProfilePhotoUrl =
-      "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png";
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
 }
