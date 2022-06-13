@@ -35,8 +35,8 @@ class _MainScreenState extends State<MainScreen> {
 
     super.initState();
 
-    debugPrint( "CurrentUser photoUrl: ${FirebaseAuth.instance.currentUser!.photoURL}");
-    
+    debugPrint(
+        "CurrentUser photoUrl: ${FirebaseAuth.instance.currentUser!.photoURL}");
   }
 
   @override
@@ -103,12 +103,13 @@ class _MainScreenState extends State<MainScreen> {
             icon: CircleAvatar(
               radius: 14,
               child: ClipOval(
-                  child: CachedNetworkImage(
-                imageUrl: FirebaseAuth.instance.currentUser!.photoURL ??
-                    Str.dummyProfilePhotoUrl,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-              )),
+                child: CachedNetworkImage(
+                  imageUrl: FirebaseAuth.instance.currentUser!.photoURL ??
+                      Str.dummyProfilePhotoUrl,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                ),
+              ),
             ),
             label: "Profile",
           ),

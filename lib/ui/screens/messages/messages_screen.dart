@@ -1,12 +1,14 @@
-import 'package:cached_network_image_builder/cached_network_image_builder.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:whisperp/models/chat_message.dart';
 import 'package:whisperp/models/user_model.dart';
 import 'package:whisperp/ui/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'components/chat_input_field.dart';
+import 'components/text_message.dart';
 
 class MessagesScreen extends StatelessWidget {
   const MessagesScreen({super.key});
@@ -15,6 +17,7 @@ class MessagesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = ModalRoute.of(context)!.settings.arguments as UserModel;
     final colRef = FirebaseFirestore.instance.collection('messages');
+    final controller = ScrollController();
 
     return Scaffold(
       appBar: AppBar(
@@ -26,11 +29,10 @@ class MessagesScreen extends StatelessWidget {
               child: ClipOval(
                 child: kIsWeb
                     ? Image.network(user.photoURL)
-                    : CachedNetworkImageBuilder(
-                        url: user.photoURL,
-                        builder: (image) {
-                          return Image.file(image);
-                        },
+                    : CachedNetworkImage(
+                        imageUrl: user.photoURL,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
                       ),
               ),
             ),
@@ -100,14 +102,24 @@ class MessagesScreen extends StatelessWidget {
                   if (snapshot.hasData) {
                     final docs = snapshot.data!.docs;
 
+                    Future.delayed(const Duration(milliseconds: 50))
+                        .whenComplete(() {
+                      controller.jumpTo(0);
+                    });
+
                     return Column(
                       children: [
                         Expanded(
                           child: ListView.builder(
+                            controller: controller,
                             reverse: true,
                             itemCount: docs.length,
                             itemBuilder: (context, index) {
-                              return Text(docs[index].data()['text']);
+                              final message = ChatMessage.fromMap(
+                                docs[index].data(),
+                              );
+
+                              return TextMessage(message: message);
                             },
                           ),
                         ),
