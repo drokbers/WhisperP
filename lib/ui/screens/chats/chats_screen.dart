@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,10 @@ class ChatScreen extends StatelessWidget {
 
     final messageColRef = FirebaseFirestore.instance.collection('messages');
 
+    final isWarning = ValueNotifier(false);
+
+    Timer? timer;
+
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
         stream:
@@ -29,6 +35,17 @@ class ChatScreen extends StatelessWidget {
             final docs = snapshot.data!.docs;
 
             debugPrint("docs.length: ${docs.length}");
+
+            if (docs.isEmpty) {
+              timer = Timer.periodic(const Duration(milliseconds: 600), (t) {
+                isWarning.value = !isWarning.value;
+              });
+            } else {
+              if (timer != null && timer!.isActive) {
+                timer?.cancel();
+                timer = null;
+              }
+            }
 
             return ListView.builder(
               itemCount: docs.length,
@@ -98,15 +115,20 @@ class ChatScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, RouteNames.searchScreen);
+      floatingActionButton: ValueListenableBuilder<bool>(
+        valueListenable: isWarning,
+        builder: (_, value, __) {
+          return FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(context, RouteNames.searchScreen);
+            },
+            backgroundColor: kPrimaryColor.withOpacity(value ? 0 : 1),
+            child: const Icon(
+              Icons.person_add_alt_1,
+              color: Colors.white,
+            ),
+          );
         },
-        backgroundColor: kPrimaryColor,
-        child: const Icon(
-          Icons.person_add_alt_1,
-          color: Colors.white,
-        ),
       ),
     );
   }
