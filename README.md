@@ -87,3 +87,7 @@ samples, guidance on mobile development, and a full API reference.
 ## Codes and Repos Used in The Project
 
 - https://github.com/abuanwar072/Chat-Messaging-App-Light-and-Dark-Theme
+
+---
+
+Encryption key -> peer's id combination
