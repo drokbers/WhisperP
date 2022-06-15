@@ -140,13 +140,10 @@ class RTCProvider {
         _remotePersonDocRef =
             FirebaseFirestore.instance.collection('users').doc(_remotePerson);
 
-        final drf = await _myDocRef!.collection('sessions').add({
+        await _myDocRef!.collection('sessions').doc(_sessionID).set({
           ...description.toMap(),
           'timestamp': FieldValue.serverTimestamp(),
         });
-
-        if (_sessionID.isEmpty) _sessionID = drf.id;
-        debugPrint("_sessionID = drf.id; $_sessionID");
 
         await _remotePersonDocRef!.update({
           'calling': _myUID,
