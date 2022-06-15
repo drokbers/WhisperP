@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:whisperp/models/chat_message.dart';
 import 'package:whisperp/models/user_model.dart';
+import 'package:whisperp/services/rtc_provider.dart';
 import 'package:whisperp/ui/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -47,19 +48,49 @@ class MessagesScreen extends StatelessWidget {
                 const Text(
                   "Online",
                   style: TextStyle(fontSize: 12),
-                )
+                ),
               ],
             )
           ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.local_phone),
-            onPressed: () {},
+          StreamBuilder<DocumentSnapshot<Map>>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data!.data()!;
+
+                final calling = data['calling'] as String?;
+                final session = data['session'] as String?;
+
+                return IconButton(
+                  icon: const Icon(Icons.local_phone),
+                  onPressed: () {
+                    final provider = RTCProvider();
+
+                    if ("$calling".isNotEmpty && "$session".isNotEmpty) {
+                      provider.createAnswer(session!, calling!);
+                      debugPrint(
+                        "provider.createAnswer(session!, calling!); $session, $calling",
+                      );
+                    }
+
+                    // provider.hungUp(provider.sessionID, user.uid);
+                  },
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
           ),
           IconButton(
             icon: const Icon(Icons.security),
-            onPressed: () {},
+            onPressed: () {
+              final provider = RTCProvider();
+              provider.createOffer(user.uid);
+            },
           ),
           const SizedBox(width: kDefaultPadding / 2),
         ],

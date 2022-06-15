@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,6 +38,8 @@ class RTCProvider {
 
   final _candidates = <String>[];
   String _sessionID = "";
+
+  String get sessionID => _sessionID;
 
   final _myUID = FirebaseAuth.instance.currentUser!.uid;
 
@@ -123,6 +126,7 @@ class RTCProvider {
   Future<void> createOffer(String to) async {
     _remotePerson = to;
     await _createPC();
+    if (_sessionID.isEmpty) _sessionID = getRandomString(20);
 
     if (_peerConnection != null) {
       try {
@@ -141,7 +145,8 @@ class RTCProvider {
           'timestamp': FieldValue.serverTimestamp(),
         });
 
-        _sessionID = drf.id;
+        if (_sessionID.isEmpty) _sessionID = drf.id;
+        debugPrint("_sessionID = drf.id; $_sessionID");
 
         await _remotePersonDocRef!.update({
           'calling': _myUID,
@@ -223,7 +228,7 @@ class RTCProvider {
   }
 
   Future<void> createAnswer(String session, String to) async {
-    _sessionID = session;
+    if (_sessionID.isEmpty) _sessionID = session;
     _remotePerson = to;
 
     await _createPC();
@@ -514,4 +519,17 @@ class RTCProvider {
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
+
+  final _rnd = Random();
+
+  String getRandomString(int length) {
+    return String.fromCharCodes(
+      Iterable.generate(
+        length,
+        (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
+      ),
+    );
+  }
 }
+
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
