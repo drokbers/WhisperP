@@ -19,6 +19,7 @@ class MessagesScreen extends StatelessWidget {
     final user = ModalRoute.of(context)!.settings.arguments as UserModel;
     final colRef = FirebaseFirestore.instance.collection('messages');
     final controller = ScrollController();
+    final rtcProvider = RTCProvider();
 
     return Scaffold(
       appBar: AppBar(
@@ -69,10 +70,8 @@ class MessagesScreen extends StatelessWidget {
                 return IconButton(
                   icon: const Icon(Icons.local_phone),
                   onPressed: () {
-                    final provider = RTCProvider();
-
                     if ("$calling".isNotEmpty && "$session".isNotEmpty) {
-                      provider.createAnswer(session!, calling!);
+                      rtcProvider.createAnswer(session!, calling!);
                       debugPrint(
                         "provider.createAnswer(session!, calling!); $session, $calling",
                       );
@@ -88,8 +87,7 @@ class MessagesScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.security),
             onPressed: () {
-              final provider = RTCProvider();
-              provider.createOffer(user.uid);
+              rtcProvider.createOffer(user.uid);
             },
           ),
           const SizedBox(width: kDefaultPadding / 2),

@@ -111,12 +111,12 @@ class RTCProvider {
 
   Future<void> mute() async {
     if (_muted) {
-      for (MediaStreamTrack mst in _localTracks) {
+      for (final mst in _localTracks) {
         await _localMediaStream!.removeTrack(mst);
       }
       _muted = true;
     } else {
-      for (MediaStreamTrack mst in _localTracks) {
+      for (final mst in _localTracks) {
         await _localMediaStream!.addTrack(mst);
       }
       _muted = false;
@@ -456,7 +456,8 @@ class RTCProvider {
     switch (iceConnectionState) {
       case RTCIceConnectionState.RTCIceConnectionStateChecking:
         debugPrint(
-            "switch onIceConnectionState: RTCIceConnectionStateChecking");
+          "switch onIceConnectionState: RTCIceConnectionStateChecking",
+        );
         break;
 
       case RTCIceConnectionState.RTCIceConnectionStateClosed:
@@ -465,14 +466,16 @@ class RTCProvider {
 
       case RTCIceConnectionState.RTCIceConnectionStateCompleted:
         debugPrint(
-            "switch onIceConnectionState: RTCIceConnectionStateCompleted");
+          "switch onIceConnectionState: RTCIceConnectionStateCompleted",
+        );
         break;
 
       case RTCIceConnectionState.RTCIceConnectionStateConnected:
         //        if (_myDocRef != null || _remotePersonDocRef != null) hungUp();
 
         debugPrint(
-            "switch onIceConnectionState: RTCIceConnectionStateConnected");
+          "switch onIceConnectionState: RTCIceConnectionStateConnected",
+        );
         break;
 
       case RTCIceConnectionState.RTCIceConnectionStateCount:
