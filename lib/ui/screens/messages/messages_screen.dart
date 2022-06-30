@@ -108,9 +108,31 @@ class MessagesScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.security),
+            icon: const Icon(Icons.call),
             onPressed: () {
-              rtcProvider.createOffer(user.uid);
+              streamController?.cancel();
+
+              streamController = null;
+
+              rtcProvider.createOffer(user.uid).whenComplete(() {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: Text(
+                      "${user.displayName} is being called",
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          rtcProvider.hungUp(rtcProvider.sessionID, user.uid);
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Cancel"),
+                      ),
+                    ],
+                  ),
+                );
+              });
             },
           ),
           const SizedBox(width: kDefaultPadding / 2),
