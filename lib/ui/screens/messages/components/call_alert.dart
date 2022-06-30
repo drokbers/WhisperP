@@ -27,6 +27,7 @@ class CallAlert extends StatelessWidget {
             final userMap = snapshot.data!.data()!;
 
             return Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text("${userMap['displayName']} is calling"),
               ],
@@ -40,12 +41,14 @@ class CallAlert extends StatelessWidget {
         TextButton(
           onPressed: () {
             rtcProvider.hungUp(sessionId, calling);
+            Navigator.pop(context);
           },
           child: const Text("Reject"),
         ),
         TextButton(
           onPressed: () {
             rtcProvider.createAnswer(sessionId, calling);
+            // Navigator.pop(context);
           },
           child: const Text("Answer"),
         ),

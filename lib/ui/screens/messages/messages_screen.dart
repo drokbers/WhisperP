@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +23,55 @@ class MessagesScreen extends StatelessWidget {
     final colRef = FirebaseFirestore.instance.collection('messages');
     final controller = ScrollController();
     final rtcProvider = RTCProvider();
+    StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+        streamController;
+
+    streamController = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .snapshots()
+        .listen((snapshot) {
+      final data = snapshot.data()!;
+
+      final calling = data['calling'] as String?;
+      final session = data['session'] as String?;
+
+      if (calling != null && session != null) {
+        if (data.containsKey('callingLastUpdate')) {
+          final callingLastUpdate =
+              (data['callingLastUpdate'] as Timestamp).toDate();
+
+          if (callingLastUpdate
+              .isBefore(DateTime.now().subtract(const Duration(seconds: 30)))) {
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .update({
+              'calling': null,
+              'session': null,
+              'callingLastUpdate': FieldValue.serverTimestamp(),
+            });
+          } else if (!(data['connected'] ?? false)) {
+            Future.delayed(const Duration(milliseconds: 300)).whenComplete(
+              () {
+                streamController?.cancel();
+
+                streamController = null;
+
+                showDialog(
+                  context: context,
+                  builder: (_) => CallAlert(
+                    calling: calling,
+                    sessionId: session,
+                    rtcProvider: rtcProvider,
+                  ),
+                );
+              },
+            );
+          }
+        }
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -56,52 +107,6 @@ class MessagesScreen extends StatelessWidget {
           ],
         ),
         actions: [
-          StreamBuilder<DocumentSnapshot<Map>>(
-            stream: FirebaseFirestore.instance
-                .collection('users')
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final data = snapshot.data!.data()!;
-
-                final calling = data['calling'] as String?;
-                final session = data['session'] as String?;
-
-                if ("$calling".isNotEmpty && "$session".isNotEmpty) {
-                  if (data.containsKey('callingLastUpdate')) {
-                    final callingLastUpdate =
-                        (data['callingLastUpdate'] as Timestamp).toDate();
-
-                    if (callingLastUpdate.isBefore(
-                        DateTime.now().subtract(const Duration(seconds: 30)))) {
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .update({
-                        'calling': null,
-                        'session': null,
-                        'callingLastUpdate': FieldValue.serverTimestamp(),
-                      });
-                    } else {
-                      Future.delayed(const Duration(milliseconds: 300))
-                          .whenComplete(() {
-                        showDialog(
-                          context: context,
-                          builder: (_) => CallAlert(
-                            calling: calling!,
-                            sessionId: session!,
-                            rtcProvider: rtcProvider,
-                          ),
-                        );
-                      });
-                    }
-                  }
-                }
-              }
-              return const SizedBox();
-            },
-          ),
           IconButton(
             icon: const Icon(Icons.security),
             onPressed: () {
