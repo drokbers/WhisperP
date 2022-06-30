@@ -86,7 +86,8 @@ class ChatScreen extends StatelessWidget {
                     return Chat(
                       name: userDoc.data()!['displayName'],
                       lastMessage: lastMessage,
-                      image: userDoc.data()!['photoURL'],
+                      image: userDoc.data()!['photoURL'] ??
+                          Str.dummyProfilePhotoUrl,
                       time: time,
                       isActive: false,
                     );

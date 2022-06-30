@@ -7,6 +7,7 @@ import 'package:whisperp/models/user_model.dart';
 import 'package:whisperp/services/rtc_provider.dart';
 import 'package:whisperp/ui/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:whisperp/ui/screens/messages/components/call_alert.dart';
 
 import 'components/chat_input_field.dart';
 import 'components/text_message.dart';
@@ -67,21 +68,38 @@ class MessagesScreen extends StatelessWidget {
                 final calling = data['calling'] as String?;
                 final session = data['session'] as String?;
 
-                return IconButton(
-                  icon: const Icon(Icons.local_phone),
-                  onPressed: () {
-                    if ("$calling".isNotEmpty && "$session".isNotEmpty) {
-                      rtcProvider.createAnswer(session!, calling!);
-                      debugPrint(
-                        "provider.createAnswer(session!, calling!); $session, $calling",
-                      );
-                    }
+                if ("$calling".isNotEmpty && "$session".isNotEmpty) {
+                  if (data.containsKey('callingLastUpdate')) {
+                    final callingLastUpdate =
+                        (data['callingLastUpdate'] as Timestamp).toDate();
 
-                    // provider.hungUp(provider.sessionID, user.uid);
-                  },
-                );
+                    if (callingLastUpdate.isBefore(
+                        DateTime.now().subtract(const Duration(seconds: 30)))) {
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .update({
+                        'calling': null,
+                        'session': null,
+                        'callingLastUpdate': FieldValue.serverTimestamp(),
+                      });
+                    } else {
+                      Future.delayed(const Duration(milliseconds: 300))
+                          .whenComplete(() {
+                        showDialog(
+                          context: context,
+                          builder: (_) => CallAlert(
+                            calling: calling!,
+                            sessionId: session!,
+                            rtcProvider: rtcProvider,
+                          ),
+                        );
+                      });
+                    }
+                  }
+                }
               }
-              return const Center(child: CircularProgressIndicator());
+              return const SizedBox();
             },
           ),
           IconButton(
