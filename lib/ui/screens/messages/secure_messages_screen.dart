@@ -30,33 +30,37 @@ class SecureMessagesScreen extends StatelessWidget {
     while (rtcProvider.remoteDataChannel == null) {
       await Future.delayed(const Duration(milliseconds: 200));
 
-      if (rtcProvider.remoteDataChannel == null) return;
+      if (rtcProvider.remoteDataChannel != null) {
+        rtcProvider.remoteDataChannel!.messageStream.listen((m) {
+          final rKey = encrypt.Key.fromUtf8(
+            "${FirebaseAuth.instance.currentUser!.uid}${user.uid}"
+                .substring(0, 32),
+          );
 
-      rtcProvider.remoteDataChannel!.messageStream.listen((m) {
-        final rKey = encrypt.Key.fromUtf8(
-          "${FirebaseAuth.instance.currentUser!.uid}${user.uid}"
-              .substring(0, 32),
-        );
+          final rIv = encrypt.IV.fromLength(16);
 
-        final rIv = encrypt.IV.fromLength(16);
+          final rEncrypter = encrypt.Encrypter(encrypt.AES(rKey));
 
-        final rEncrypter = encrypt.Encrypter(encrypt.AES(rKey));
+          final decrypted = rEncrypter.decrypt(
+            encrypt.Encrypted(
+              Uint8List.fromList(
+                (jsonDecode(m.text) as List).cast<int>(),
+              ),
+            ),
+            iv: rIv,
+          );
 
-        final decrypted = rEncrypter.decrypt(
-          encrypt.Encrypted(Uint8List.fromList(utf8.encode(m.text))),
-          iv: rIv,
-        );
+          final message = ChatMessage(
+            text: decrypted,
+            senderId: user.uid,
+            messageType: ChatMessageType.text,
+            messageStatus: MessageStatus.notview,
+            timestamp: DateTime.now(),
+          );
 
-        final message = ChatMessage(
-          text: decrypted,
-          senderId: user.uid,
-          messageType: ChatMessageType.text,
-          messageStatus: MessageStatus.notview,
-          timestamp: DateTime.now(),
-        );
-
-        box.add(message.toMap());
-      });
+          box.add(message.toMap());
+        });
+      }
     }
   }
 
@@ -128,9 +132,14 @@ class SecureMessagesScreen extends StatelessWidget {
                     child: HiveListener(
                       box: snapshot.data!,
                       builder: (box) {
+                        Future.delayed(const Duration(milliseconds: 50))
+                            .whenComplete(() {
+                          controller
+                              .jumpTo(controller.position.maxScrollExtent);
+                        });
+
                         return ListView.builder(
                           controller: controller,
-                          reverse: true,
                           itemCount: box.length,
                           itemBuilder: (context, index) {
                             final message = ChatMessage.fromMap(
@@ -199,7 +208,7 @@ class SecureMessagesScreen extends StatelessWidget {
                           IconButton(
                             onPressed: () async {
                               if (textEditCtrlr.text.isNotEmpty) {
-                                if (rtcProvider.remoteDataChannel != null) {
+                                if (rtcProvider.localDataChannel != null) {
                                   final key = encrypt.Key.fromUtf8(
                                     "${user.uid}${FirebaseAuth.instance.currentUser!.uid}"
                                         .substring(0, 32),
@@ -213,9 +222,9 @@ class SecureMessagesScreen extends StatelessWidget {
                                   final encrypted = encrypter
                                       .encrypt(textEditCtrlr.text, iv: iv);
 
-                                  rtcProvider.remoteDataChannel!.send(
+                                  rtcProvider.localDataChannel!.send(
                                     RTCDataChannelMessage(
-                                      jsonEncode(encrypted),
+                                      jsonEncode(encrypted.bytes),
                                     ),
                                   );
 
