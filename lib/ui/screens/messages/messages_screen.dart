@@ -14,6 +14,7 @@ import 'package:whisperp/ui/screens/messages/components/call_alert.dart';
 import 'components/chat_input_field.dart';
 import 'components/message_alert.dart';
 import 'components/text_message.dart';
+import 'secure_messages_screen.dart';
 
 class MessagesScreen extends StatelessWidget {
   const MessagesScreen({super.key});
@@ -196,7 +197,14 @@ class MessagesScreen extends StatelessWidget {
               messagingStreamController = null;
 
               rtcProvider.createMessagingOffer(user.uid).whenComplete(() {
-                showDialog(
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => SecureMessagesScreen(
+                        rtcProvider: rtcProvider, user: user),
+                  ),
+                );
+                /* showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
                     title: Text(
@@ -212,7 +220,7 @@ class MessagesScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
+                ); */
               });
             },
           ),
