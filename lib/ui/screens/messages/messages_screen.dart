@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:whisperp/ui/screens/messages/components/call_alert.dart';
 
 import 'components/chat_input_field.dart';
+import 'components/message_alert.dart';
 import 'components/text_message.dart';
 
 class MessagesScreen extends StatelessWidget {
@@ -23,6 +24,7 @@ class MessagesScreen extends StatelessWidget {
     final colRef = FirebaseFirestore.instance.collection('messages');
     final controller = ScrollController();
     final rtcProvider = RTCProvider();
+
     StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
         streamController;
 
@@ -64,6 +66,57 @@ class MessagesScreen extends StatelessWidget {
                     calling: calling,
                     sessionId: session,
                     rtcProvider: rtcProvider,
+                  ),
+                );
+              },
+            );
+          }
+        }
+      }
+    });
+
+    StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+        messagingStreamController;
+
+    messagingStreamController = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .snapshots()
+        .listen((snapshot) {
+      final data = snapshot.data()!;
+
+      final calling = data['messaging'] as String?;
+      final session = data['session'] as String?;
+
+      if (calling != null && session != null) {
+        if (data.containsKey('messagingLastUpdate')) {
+          final callingLastUpdate =
+              (data['messagingLastUpdate'] as Timestamp).toDate();
+
+          if (callingLastUpdate
+              .isBefore(DateTime.now().subtract(const Duration(seconds: 30)))) {
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .update({
+              'messaging': null,
+              'session': null,
+              'messagingLastUpdate': FieldValue.serverTimestamp(),
+            });
+          } else if (!(data['connected'] ?? false)) {
+            Future.delayed(const Duration(milliseconds: 300)).whenComplete(
+              () {
+                messagingStreamController?.cancel();
+
+                messagingStreamController = null;
+
+                showDialog(
+                  context: context,
+                  builder: (_) => MessageAlert(
+                    calling: calling,
+                    sessionId: session,
+                    rtcProvider: rtcProvider,
+                    user: user,
                   ),
                 );
               },
@@ -120,6 +173,34 @@ class MessagesScreen extends StatelessWidget {
                   builder: (_) => AlertDialog(
                     title: Text(
                       "${user.displayName} is being called",
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          rtcProvider.hungUp(rtcProvider.sessionID, user.uid);
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Cancel"),
+                      ),
+                    ],
+                  ),
+                );
+              });
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.security),
+            onPressed: () {
+              messagingStreamController?.cancel();
+
+              messagingStreamController = null;
+
+              rtcProvider.createMessagingOffer(user.uid).whenComplete(() {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: Text(
+                      "${user.displayName} is being invited to secure chat",
                     ),
                     actions: [
                       TextButton(
