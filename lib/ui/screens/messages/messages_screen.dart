@@ -201,7 +201,9 @@ class MessagesScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => SecureMessagesScreen(
-                        rtcProvider: rtcProvider, user: user),
+                      rtcProvider: rtcProvider,
+                      user: user,
+                    ),
                   ),
                 );
                 /* showDialog(

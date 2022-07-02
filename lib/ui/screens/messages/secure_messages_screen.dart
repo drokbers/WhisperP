@@ -26,6 +26,38 @@ class SecureMessagesScreen extends StatelessWidget {
   final RTCProvider rtcProvider;
   final UserModel user;
 
+  Future<void> _listenRemoteDataChannel(Box box) async {
+    while (rtcProvider.remoteDataChannel == null) {
+      await Future.delayed(const Duration(milliseconds: 200));
+
+      rtcProvider.remoteDataChannel!.messageStream.listen((m) {
+        final rKey = encrypt.Key.fromUtf8(
+          "${FirebaseAuth.instance.currentUser!.uid}${user.uid}"
+              .substring(0, 32),
+        );
+
+        final rIv = encrypt.IV.fromLength(16);
+
+        final rEncrypter = encrypt.Encrypter(encrypt.AES(rKey));
+
+        final decrypted = rEncrypter.decrypt(
+          encrypt.Encrypted(Uint8List.fromList(utf8.encode(m.text))),
+          iv: rIv,
+        );
+
+        final message = ChatMessage(
+          text: decrypted,
+          senderId: user.uid,
+          messageType: ChatMessageType.text,
+          messageStatus: MessageStatus.notview,
+          timestamp: DateTime.now(),
+        );
+
+        box.add(message.toMap());
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
@@ -84,32 +116,7 @@ class SecureMessagesScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final textEditCtrlr = TextEditingController(text: "");
-
-            rtcProvider.remoteDataChannel!.messageStream.listen((m) {
-              final rKey = encrypt.Key.fromUtf8(
-                "${FirebaseAuth.instance.currentUser!.uid}${user.uid}"
-                    .substring(0, 32),
-              );
-
-              final rIv = encrypt.IV.fromLength(16);
-
-              final rEncrypter = encrypt.Encrypter(encrypt.AES(rKey));
-
-              final decrypted = rEncrypter.decrypt(
-                encrypt.Encrypted(Uint8List.fromList(utf8.encode(m.text))),
-                iv: rIv,
-              );
-
-              final message = ChatMessage(
-                text: decrypted,
-                senderId: user.uid,
-                messageType: ChatMessageType.text,
-                messageStatus: MessageStatus.notview,
-                timestamp: DateTime.now(),
-              );
-
-              snapshot.data!.add(message.toMap());
-            });
+            _listenRemoteDataChannel(snapshot.data!);
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
