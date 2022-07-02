@@ -28,4 +28,17 @@ class RtcOptions {
     'audio': true,
     'video': false,
   };
+
+  static final offerMessagingSdpConstraints = {
+    "mandatory": {
+      "OfferToReceiveAudio": false,
+      "OfferToReceiveVideo": false,
+    },
+    "optional": [],
+  };
+
+  static final messagingMediaConstraints = {
+    'audio': false,
+    'video': false,
+  };
 }

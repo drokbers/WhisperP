@@ -88,7 +88,7 @@ class RTCProvider {
     }
   }
 
-  Future<void> _createPC() async {
+  Future<void> _createPC([bool messaging = false]) async {
     if (_peerConnection != null) return;
 
     _peerConnection = await createPeerConnection(
@@ -105,7 +105,8 @@ class RTCProvider {
     _peerConnection!.onRenegotiationNeeded = _onRenegotiationNeeded;
     _peerConnection!.onSignalingState = _onSignalingState;
 
-    await _createLocalStream();
+    if (!messaging) await _createLocalStream();
+
     await _createLocalDataChannel();
   }
 
@@ -159,6 +160,87 @@ class RTCProvider {
           final callingLastUpdate = ds1Map['callingLastUpdate'].toDate();
 
           if (ds1Map['calling'] == _myUID && callingLastUpdate.isAfter(_now)) {
+            _waitForAnswerStrem!.cancel();
+
+            final dr2 =
+                _remotePersonDocRef!.collection('sessions').doc(_sessionID);
+
+            _waitForSdp = dr2.snapshots().listen((ds2) {
+              if (ds2.exists) {
+                final ds2Map = ds2.data()!;
+
+                final rDescription =
+                    RTCSessionDescription(ds2Map['sdp'], ds2Map['type']);
+
+                _peerConnection!
+                    .setRemoteDescription(rDescription)
+                    .whenComplete(() {
+                  _waitForSdp!.cancel();
+
+                  _waitCandidates = dr2
+                      .collection('candidates')
+                      .snapshots()
+                      .listen((qsEvent) {
+                    _addRemoteCandidatesFromQS(qsEvent);
+                  });
+                });
+              }
+            });
+          }
+          /*  else if (ds1.data()['calling'] == "") {
+          _waitForAnswerStrem.cancel();
+          hungUp();
+        } else if (!timeOut) {
+          Future.delayed(Duration(milliseconds: 1500)).whenComplete(() {
+            timeOut = true;
+            _waitForAnswerStrem.cancel();
+            hungUp();
+          });
+        } */
+        });
+      } catch (e) {
+        debugPrint("error occured when trying to createOffer $e");
+      }
+    }
+  }
+
+  Future<void> createMessagingOffer(String to) async {
+    _remotePerson = to;
+    await _createPC(true);
+    if (_sessionID.isEmpty) _sessionID = getRandomString(20);
+
+    if (_peerConnection != null) {
+      try {
+        final description =
+            await _peerConnection!.createOffer(RtcOptions.offerSdpConstraints);
+
+        _peerConnection!.setLocalDescription(description);
+
+        _myDocRef = FirebaseFirestore.instance.collection('users').doc(_myUID);
+
+        _remotePersonDocRef =
+            FirebaseFirestore.instance.collection('users').doc(_remotePerson);
+
+        await _myDocRef!.collection('sessions').doc(_sessionID).set({
+          ...description.toMap(),
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+
+        await _remotePersonDocRef!.update({
+          'messaging': _myUID,
+          'session': _sessionID,
+          'messagingLastUpdate': DateTime.now(),
+        });
+
+        _now = DateTime.now()..add(const Duration(seconds: 1));
+        // bool timeOut = false;
+
+        _waitForAnswerStrem = _remotePersonDocRef!.snapshots().listen((ds1) {
+          final ds1Map = ds1.data()! as Map;
+          final callingLastUpdate = ds1Map['messagingLastUpdate'].toDate();
+
+          if (ds1Map['messaging'] == _myUID &&
+              callingLastUpdate.isAfter(_now)) {
             _waitForAnswerStrem!.cancel();
 
             final dr2 =
@@ -283,6 +365,71 @@ class RTCProvider {
     await _myDocRef!.update(
       {
         'callingLastUpdate': remoteTime.isBefore(_now)
+            ? _now
+            : remoteTime.add(const Duration(seconds: 10))
+      },
+    );
+  }
+
+  Future<void> createMessageAnswer(String session, String to) async {
+    if (_sessionID.isEmpty) _sessionID = session;
+    _remotePerson = to;
+
+    await _createPC(true);
+
+    _myDocRef = FirebaseFirestore.instance.collection('users').doc(_myUID);
+    _remotePersonDocRef =
+        FirebaseFirestore.instance.collection('users').doc(_remotePerson);
+
+    final dr2 = _remotePersonDocRef!.collection('sessions').doc(_sessionID);
+    final ds = await dr2.get();
+
+    try {
+      final rDescription =
+          RTCSessionDescription(ds.data()!['sdp'], ds.data()!['type']);
+      _peerConnection!.setRemoteDescription(rDescription);
+    } catch (e) {
+      debugPrint("error adding answerDescription createAnswer $e");
+    }
+
+    try {
+      final lDescription =
+          await _peerConnection!.createAnswer(RtcOptions.offerSdpConstraints);
+      _peerConnection!.setLocalDescription(lDescription);
+
+      await _myDocRef!
+          .collection('sessions')
+          .doc(_sessionID)
+          .set(lDescription.toMap());
+
+      debugPrint(
+          "_myDocRef.collection('sessions').doc(_sessionID).set(lDescription.toMap());");
+    } catch (e) {
+      debugPrint("error adding answerDescription createAnswer $e");
+    }
+
+    final qs = await dr2.collection('candidates').get();
+    await _addRemoteCandidatesFromQS(qs);
+
+    _waitCandidates =
+        dr2.collection('candidates').snapshots().listen((qsEvent) {
+      _addRemoteCandidatesFromQS(qsEvent);
+    });
+
+    _now = DateTime.now()..add(const Duration(seconds: 1));
+
+    await _remotePersonDocRef!.update({
+      'messaging': _myUID,
+      'session': _sessionID,
+      'messagingLastUpdate': DateTime.now(),
+    });
+
+    final myDoc = await _myDocRef!.get();
+    final remoteTime = (myDoc.data()! as Map)['messagingLastUpdate'].toDate();
+
+    await _myDocRef!.update(
+      {
+        'messagingLastUpdate': remoteTime.isBefore(_now)
             ? _now
             : remoteTime.add(const Duration(seconds: 10))
       },
