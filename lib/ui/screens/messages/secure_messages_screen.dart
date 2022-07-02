@@ -30,6 +30,8 @@ class SecureMessagesScreen extends StatelessWidget {
     while (rtcProvider.remoteDataChannel == null) {
       await Future.delayed(const Duration(milliseconds: 200));
 
+      if (rtcProvider.remoteDataChannel == null) return;
+
       rtcProvider.remoteDataChannel!.messageStream.listen((m) {
         final rKey = encrypt.Key.fromUtf8(
           "${FirebaseAuth.instance.currentUser!.uid}${user.uid}"
@@ -216,6 +218,17 @@ class SecureMessagesScreen extends StatelessWidget {
                                       jsonEncode(encrypted),
                                     ),
                                   );
+
+                                  final message = ChatMessage(
+                                    text: textEditCtrlr.text,
+                                    senderId:
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                    messageType: ChatMessageType.text,
+                                    messageStatus: MessageStatus.notview,
+                                    timestamp: DateTime.now(),
+                                  );
+
+                                  snapshot.data!.add(message.toMap());
                                 }
 
                                 textEditCtrlr.text = "";
