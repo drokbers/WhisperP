@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.0.27+27
+version: 0.0.20+20
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -27,22 +27,31 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  cloud_firestore: ^3.2.1
-  firebase_auth: ^3.4.1
-  firebase_core: ^1.19.1
-  firebase_messaging: ^11.4.4
-  firebase_storage: ^10.3.1
+  cloud_firestore: ^3.1.17
+  firebase_auth: ^3.3.19
+  firebase_core: ^1.17.1
+  firebase_messaging: ^11.4.1
+  firebase_storage: ^10.2.17
   flutter:
     sdk: flutter
-  flutter_webrtc: ^0.8.10
-  flutterfire_ui: ^0.4.2+2
+  flutter_webrtc: ^0.8.9
+  flutterfire_ui: ^0.4.1+2
   fluttertoast: ^8.0.9
   google_fonts: ^3.0.1
-  hive: ^2.2.3
+  hive: ^2.2.2
   hive_flutter: ^1.1.0
   hive_listener: ^1.2.1
   cached_network_image: ^3.2.1
-  encrypt: ^5.0.1
+  image_picker: ^0.8.5+3
+  video_player: ^2.4.5
+  flutter_launcher_icons: "^0.9.0"
+  splash_screen_view: ^3.0.0
+  get: ^4.1.4
+  flutter_sound: ^9.2.13
+  permission_handler: ^10.0.0
+  path_provider: ^2.0.11
+
+
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -55,6 +64,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   hive_generator: ^1.1.3
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/1024.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/1024.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

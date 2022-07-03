@@ -3,7 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_listener/hive_listener.dart';
-//deneme
+import 'package:splash_screen_view/SplashScreenView.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+
 import 'consts/index.dart';
 import 'firebase_options.dart';
 import 'models/user_model.dart';
@@ -25,7 +28,42 @@ void main() async {
 
   await Hive.openBox<UserModel>(BoxNames.users);
 
-  runApp(const MyApp());
+  
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: SplashScreen(),
+  ));
+}
+
+class SplashScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    return SplashScreenView(
+      navigateRoute: MyApp(),
+      duration: 5000,
+      imageSize: Get.width ~/ 3,
+      imageSrc: "assets/images/1024.png",
+      text: "WhisperP",
+      textType: TextType.ColorizeAnimationText,
+      textStyle: TextStyle(
+        fontSize: Get.width / 10,
+      ),
+      colors: const [
+        Colors.white,
+        Colors.blue,
+        Colors.grey,
+        Colors.blue,
+        Colors.grey,
+        Colors.blue,
+      ],
+      backgroundColor: Colors.black,
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
