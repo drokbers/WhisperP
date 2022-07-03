@@ -44,13 +44,13 @@ class MessageAlert extends StatelessWidget {
         },
       ),
       actions: [
-        TextButton(
+        /*  TextButton(
           onPressed: () {
             rtcProvider.hungUp(sessionId, calling);
             Navigator.pop(context);
           },
           child: const Text("Reject"),
-        ),
+        ), */
         TextButton(
           onPressed: () {
             rtcProvider.createMessageAnswer(sessionId, calling);
