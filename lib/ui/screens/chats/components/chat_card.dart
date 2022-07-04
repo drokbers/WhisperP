@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 class ChatCard extends StatelessWidget {
-  const ChatCard({super.key, required this.chat, required this.press});
+  const ChatCard({
+    super.key,
+    required this.chat,
+    required this.press,
+  });
 
   final Chat chat;
   final VoidCallback press;
