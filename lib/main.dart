@@ -9,7 +9,7 @@ import 'firebase_options.dart';
 import 'models/user_model.dart';
 import 'services/app_routes.dart';
 import 'ui/theme.dart';
-/**main */
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

@@ -13,7 +13,9 @@ import '../../../services/cache_users.dart';
 import '../../../services/firestore_user_registeration.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({
+    super.key,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();

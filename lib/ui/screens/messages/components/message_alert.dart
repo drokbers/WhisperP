@@ -49,7 +49,7 @@ class MessageAlert extends StatelessWidget {
             rtcProvider.hungUp(sessionId, calling);
             Navigator.pop(context);
           },
-          child: const Text("Reject"),
+          child:const Icon(Icons.close_circle_sharp),
         ), */
         TextButton(
           onPressed: () {
@@ -63,7 +63,7 @@ class MessageAlert extends StatelessWidget {
               ),
             );
           },
-          child: const Text("Accept"),
+          child: const Icon(Icons.check_circle_sharp),
         ),
       ],
     );

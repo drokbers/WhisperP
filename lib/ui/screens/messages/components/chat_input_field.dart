@@ -6,7 +6,10 @@ import 'package:whisperp/models/chat_message.dart';
 import '../../../constants.dart';
 
 class ChatInputField extends StatelessWidget {
-  const ChatInputField({super.key, required this.messagesDocId});
+  const ChatInputField({
+    super.key,
+    required this.messagesDocId,
+  });
 
   final String messagesDocId;
 

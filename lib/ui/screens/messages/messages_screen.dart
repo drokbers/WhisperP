@@ -17,7 +17,9 @@ import 'components/text_message.dart';
 import 'secure_messages_screen.dart';
 
 class MessagesScreen extends StatelessWidget {
-  const MessagesScreen({super.key});
+  const MessagesScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,9 @@ import '../../../models/user_model.dart';
 import 'components/chat_card.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

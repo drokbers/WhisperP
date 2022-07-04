@@ -5,7 +5,10 @@ import 'package:whisperp/models/user_model.dart';
 import '../../constants.dart';
 
 class SearchResultCard extends StatelessWidget {
-  const SearchResultCard({super.key, required this.user});
+  const SearchResultCard({
+    super.key,
+    required this.user,
+  });
 
   final UserModel user;
 

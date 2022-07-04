@@ -10,7 +10,10 @@ import '../../../../consts/index.dart';
 import '../../../constants.dart';
 
 class TextMessage extends StatelessWidget {
-  const TextMessage({super.key, required this.message});
+  const TextMessage({
+    super.key,
+    required this.message,
+  });
 
   final ChatMessage message;
 
