@@ -1,8 +1,16 @@
-# whisperp
 
-A new Flutter project.
 
-### Our project will be live on every push on this link: https://whisperp.web.app
+<p align="center">
+  <img src="https://i.hizliresim.com/ivxcz1w.png">
+</p>
+
+
+With  Whisper,  we  enable  our  users  to  communicate  from Peer to Peer by  using WebRTC technology. Since we are using Peer to Peer, they can send messages among themselves without a server intermediary, and we cannot access them even if we wanted to. We also encrypt these messages  symmetrically  as  an  extra  security  method. We  aim  to  offer  our  users  a  quality messaging and conversation service with a beautiful design. We are planning to add video chat feature and many more features in our next versions.
+
+
+### See Live : https://whisperp.web.app
+
+### Thesis link :  [Doc](https://drive.google.com/file/d/11fl197PJLVTyx-urz1BGn8eh2e4JQdFE/view?usp=sharing)
 
 We are using:
 
@@ -10,7 +18,6 @@ We are using:
 - Github Actions as CI/CD tool to deploy our project to hositing
 - Firebase hosting to serve our demo apps for every step of development
 
-## Styles
 
 ## Development
 
@@ -18,18 +25,6 @@ We are using:
   - We will open a branch for all new features and create pull request at the and of this feature's development
   - We will rebase commits to 1 commit for each pull request to keep main branch commit history
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
 ## Sources
 
@@ -54,13 +49,6 @@ samples, guidance on mobile development, and a full API reference.
 
 - DevOps CI/CD for flutter using Github Actions
 
-## Side Topics
-
-- When using Microsoft Word for final report
-  - Automatic table of contents
-  - Automatic references (bibliography)
-- VSCode Extensions
-  - Markdown Preview Enhanced
 
 ## Need to check out
 
