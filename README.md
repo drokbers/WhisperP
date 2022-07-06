@@ -1,9 +1,6 @@
-
-
 <p align="center">
-  <img src="https://i.hizliresim.com/ivxcz1w.png">
+  <img src="https://i.hizliresim.com/nkjc885.png">
 </p>
-
 
 With  Whisper,  we  enable  our  users  to  communicate  from Peer to Peer by  using WebRTC technology. Since we are using Peer to Peer, they can send messages among themselves without a server intermediary, and we cannot access them even if we wanted to. We also encrypt these messages  symmetrically  as  an  extra  security  method. We  aim  to  offer  our  users  a  quality messaging and conversation service with a beautiful design. We are planning to add video chat feature and many more features in our next versions.
 
