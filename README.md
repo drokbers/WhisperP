@@ -7,7 +7,7 @@ With  Whisper,  we  enable  our  users  to  communicate  from Peer to Peer by  u
 
 ### See Live : https://whisperp.web.app
 
-### Thesis link :  [Doc](https://drive.google.com/file/d/11fl197PJLVTyx-urz1BGn8eh2e4JQdFE/view?usp=sharing)
+### Thesis link :  [Doc](https://docs.google.com/document/d/17EVXmpIxjvDLv2B5Duu8-ob46zKEU-sZ5oDCCfJfTjY/edit?usp=sharing)
 
 We are using:
 
